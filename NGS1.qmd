@@ -1,0 +1,393 @@
+# Within this tutorial we will
+
+- run `fastqc` of some NGS files to learn to understand the output
+- learn about containers, and where to get them, and how to use them with `apptainer`
+- run `multiqc` to aggregate multiple reports from a variety of tools
+
+# Preparations
+
+## Connect to Dardel
+
+For this tutorial we will connect to Dardel. For everyone connecting via Kerberos this is the command:
+
+```{.bash}
+ssh -o GSSAPIAuthentication=yes <PDC username>@dardel.pdc.kth.se
+````
+
+## Start a screen session
+
+[Screen](https://www.gnu.org/software/screen/manual/screen.html) or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.
+
+
+Start a `named session`
+
+```{.bash}
+screen -S fastqc
+```
+You can detach from the screen session. The process within the screen will continue to run.
+
+```{.bash}
+Ctrl + a d
+```
+
+You can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:
+
+```{.bash}
+screen -ls
+```
+
+To `resume your screen session` use the following command:
+
+```{.bash}
+screen name
+```
+
+## Change into PDC scratch space
+
+On PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory  it will look something like this:
+
+```{.bash}
+pwd
+```
+
+> /cfs/klemming/home/<user letter>/<user name>
+
+You can always come back to your home directory by entering:
+
+```{.bash}
+cd
+```
+
+The home directories have a quota of 25 GB, so there is not much space in them.
+
+
+However, connected to our home directories, PDC has a `temporary disk space, called scratch`. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.
+
+To move into the scratch space, change into it:
+
+```{.bash}
+cd $PDC_TMP
+```
+
+You can check that you are in it by printing your working directory:
+
+```{.bash}
+pwd
+```
+
+> /cfs/klemming/scratch/<user letter>/<user name>
+
+## Create a directory to work in
+
+Start by creating a workspace for the raw data used in this exercise in your scratch space, and then move into it:
+
+```{.bash}
+mkdir -p  NGI_course/qc/raw
+cd NGI_course/qc/raw
+```
+
+## Create symbolic link to the data
+
+The raw data files are located in:
+
+```{.bash}
+/sw/courses/slu_bioinfo
+```
+
+You could copy the files into your workspace to access them. However, it is better to create symbolic links (also called soft links) to the data files. This saves disk space and still allows you to work with them as if they were in your own directory.
+
+Create symbolic links to the fastq files in your workspace:
+
+```{.bash}
+ln -s /sw/courses/slu_bioinfo/*.fastq .
+```
+
+You now have four files in your directory: two for the TMEB117 cultivar containing the DNA sequences, and two for the TMEB419 cultivar, containing the RNA sequencing results.
+
+
+# FASTQC
+
+[`Fastqc`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a simple tool to monitor the quality and the properties of a NGS sequencing file in fastq, SAM and BAM format.
+
+FastQC performs a series of quality control analyses, called modules. The output is a HTML report with one section for each module, and a summary evaluation of the results in the top. "Normal" results are marked with a green tick, slightly abnormal results raise warnings (orange exclamation mark), and very unusual results raise failures (red cross).
+
+Keep in mind that even though FastQC is giving out pass/fail results for your samples, these evaluations must be taken in the context of what you expect from your library. A ‘normal’ sample as far as FastQC is concerned is random and diverse. However, because of project design your samples might deviate from this expectation. The summary evaluations should be pointers to where you have to concentrate your attention and understand why your library may not look random and diverse.
+
+## Running fastqc
+
+There are several ways to manage bioinformatics tools, such as using `Conda`, `container platforms`, or the `module system`, which you might have encountered in a previous course.
+
+In this tutorial, we will focus on `Apptainer` — the open-source version of Singularity. By using Apptainer, we are flexible in running tools and specific tool versions that may not be directly installed on the system we are working on. All we need for this is a system where Apptainer is installed. Luckily for us, Dardel is one such system.
+
+Make a directory for the output of the tool:
+
+```{.bash}
+cd .. 
+
+mkdir fastqc
+```
+
+Check the directory you are in:
+
+```{.bash}
+pwd 
+```
+
+You should be located in
+
+
+> <your_scratch_space>/NGI_course/qc
+
+## Getting apptainer image
+
+One good place to get quality controlled Apptainer/Singularity containers that contain the tools we want to use is [seqera containers](https://seqera.io/containers/).
+
+
+go to their homepage
+
+in the searchbar, type in the tool you want - fastqc
+
+[![](images/seqera_cont_one)]()
+
+<br><br>
+
+Add the tool you want to have in your container (in this case `fastqc` from Bioconda).
+
+In the container settings underneath the search bar, select Singularity and linux/amd64
+
+Click "get container"
+
+[![](images/seqera_cont_2)]()
+
+<br><br>
+
+Once the container is ready select HTTPS and copy the name of the image.
+
+[![](images/seqera_cont_3)]()
+
+
+## Download container images
+
+To have a nice and clean project directory we will make a new sub-directory that will contain all the singularity images we will use during this tutorial.
+
+```{.bash}
+mkdir singularity_images
+cd singularity_images
+```
+
+Now we can pull the container image from its location into our folder:
+
+```{.bash}
+singularity pull --name fastqc_0.12.1.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/e0/e0c976cb2eca5fee72618a581537a4f8ea42fcae24c9b201e2e0f764fd28648a/data
+```
+
+Then we move out of the directory again:
+
+```{.bash}
+cd .. 
+```
+
+## Running fastqc with sbatch
+
+Dardel is using `slurm` as its jobmanager (as you have heard earlier today). We will now use slurm's command sbatch to run fastqc with the container image.
+
+Again, we want to maintain a clean and orderly project directory:
+
+In your rnaseq folder, create a new directory called scripts, within this directory create a file called fastqc.sh.
+
+```{.bash}
+mkdir scripts
+cd scripts
+nano fastqc.sh
+```
+
+Copy the following into the file, and save the contents. Read through the file and try to understand what the different lines are doing.
+
+```{.bash}
+#! /bin/bash -l
+
+#SBATCH -A edu24.bk0001
+#SBATCH -t 15:00
+#SBATCH -n 4
+#SBATCH -p shared
+
+module load PDC apptainer
+
+# Get CPUS allocated to slurm script (-n above)
+CPUS=$SLURM_NPROCS
+
+singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastqc_0.12.1.sif \
+    fastqc -t $CPUS -o fastqc/ raw/*.fastq
+    echo "complete"
+```
+ 
+
+The slurm options used here:
+
+- A: project ID
+- t allocated time dd-hh:mm:ss
+- n number of cpus
+- p partition to use - here we will use the shared partition
+
+Submit the script to slurm:
+
+```{.bash}
+sbatch fastqc.sh
+```
+
+After running a bash script you will get a slurm output. Look at that output. See if you understand what that output contains.
+
+```{.bash}
+less slurm-XXXXX.out
+```
+
+Locate the output of FastQC.
+
+::: {.callout-note}
+Which output directory did you specify in the batch file?
+:::
+
+
+For each fastq file you will get two output files:
+
+> TMEB117_R1_frac_fastq.zip (report, data files and graphs) 
+
+> TMEB117_R1_frac_fastq.html (report in html)
+
+Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command:
+
+```{.bash}
+rsync -ah <user>@dardel.pdc.kth.se:/cfs/klemming/scratch/<user_letter>/<user>/NGI_course/qc/fastqc .
+```
+
+
+Let's look at the files. Go through the reports to understand your sample.
+
+
+You see that it is getting kind of tedious to look through all the different files one by one. Okay with only a few files, but imagine having to sift through a few dozen, or even hundreds of reports.
+
+## MultiQC
+
+[MultiQC](https://seqera.io/multiqc/) searches a given directory for analysis logs and compiles a HTML report. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools. It aggregates results from bioinformatics analyses across many samples into a single report.
+
+### Building apptainer image
+
+On the seqera container page choose `bioconda::multiqc` for your container image. Proceed to build the container image, following the steps we did for `fastqc`.
+
+### Download container images
+
+Download the container image with singularity pull. The `--name` flag lets you re-name the image to a more intuitive name. 
+
+::: {.callout-note}
+Good practice is to name it after the tool and its version number.
+:::
+
+Copy the image into your singularity_images folder, if it isn't there yet.
+
+
+### Running multiqc with sbatch
+
+Within your scripts directory, make a new file, multiqc.sh, and add the following:
+
+```{.bash}
+#! /bin/bash -l
+
+#SBATCH -A edu24.bk0001
+#SBATCH -t 15:00
+#SBATCH -n 1
+#SBATCH -p shared
+
+module load PDC apptainer
+
+singularity exec singularity_images/multiqc_1.25.1.sif \
+    multiqc -f -o multiqc .
+```
+
+Navigate out of the scripts directory back into the qc directory. 
+
+Make a directory called multiqc.
+
+Run the bash script with
+
+```{.bash}
+sbatch scripts/multiqc.sh 
+```
+
+The command output looks something like:
+
+
+/// MultiQC 🔍 v1.25.1
+
+config | Loading config settings from: multiqc_config.yaml
+file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGI_course/qc
+
+fastqc | Found 4 reports
+
+write_results | Data        : multiqc/multiqc_data   (overwritten)
+write_results | Report      : multiqc/multiqc_report.html   (overwritten)
+multiqc | MultiQC complete
+
+
+Download the report and look at it. Understand what is going on. Read the documentation.
+
+Do we need to adapter trim any samples?
+
+## FastP
+
+[FastP](https://github.com/OpenGene/fastp) is a FASTQ data pre-processing tool. The algorithm has functions for quality control, trimming of adapters, filtering by quality, and read pruning.
+
+Dependent on what analysis you need to do with the NGS data it is wise to process the data according to the quality control and remove low score sequences and/or low score 5' and 3' fragments. It makes sense to trim adapters for downstream analyses, but quality filtering can remove information that modern downstream tools can still utilize.
+
+Let's get the output into a different directory:
+
+```{.bash}
+mkdir fastp
+```
+
+Then retreive the container image from seqera containers:
+
+```{.bash}
+singularity pull --name fastp_0.23.4.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/3f/3fcff4f02e7e012e4bab124d64a2a50817dd64303998170127c8cf9c1968e10a/data
+```
+
+Make sure the image is in the same folder as the other images we used so far.
+
+Run fastp with the following bash script:
+
+```{.bash}
+#! /bin/bash -l
+
+#SBATCH -A edu24.bk0001
+#SBATCH -t 15:00
+#SBATCH -n 4
+#SBATCH -p shared
+
+module load PDC apptainer
+
+# Get CPUS allocated to slurm script (-n above)
+CPUS=$SLURM_NPROCS
+
+singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif \
+    fastp -i raw/TMEB117_R1_frac.fastq \
+    -I raw/TMEB117_R2_frac.fastq \
+    -o fastp/TMEB117_R1_frac_trim.fastq \
+    -O fastp/TMEB117_R2_frac_trim.fastq \
+    --json fastp/TMEB117_fastp.json \
+    --html fastp/TMEB117_fastp.html
+
+    echo "complete"
+```
+
+::: {.callout-tip}
+## Exercise
+
+Do you understand the bash script? Discuss with your neighbour and check out the manual for fastp.
+:::
+
+
+
+ ::: {.callout-tip}
+## Exercise
+
+Once you get the cleaned sequences run multiqc again to check the result.
+:::

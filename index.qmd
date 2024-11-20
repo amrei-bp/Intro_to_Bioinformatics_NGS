@@ -1,0 +1,15 @@
+![](images/cassava2.jpeg){width=700}
+
+# The data
+
+The data we will be working on today are DNA sequencing data and RNA sequencing data from cassava cultivars.
+
+The paired end DNA sequences were retreived from the cassava cultivar called [TMEB117](https://www.researchgate.net/publication/376387151_Haplotype-resolved_genome_of_heterozygous_African_cassava_cultivar_TMEB117_Manihot_esculenta), a strain that whose genome is now known and that, due to its susceptibility to certain cassava diseases, can be used as a reference for studying virus resistance mechanisms in cassava.
+
+The paired end RNA sequencing data comes from a cassava genotype called [TMEB419](https://www.agrobiotech.bio/en/cassava/57-manioc.html). This cultivar was bred to be highly resistant to various cassava viruses and is used commercially. 
+
+Special thanks to Andreas Gisel for providing these samples (and the picture above)!
+
+# Data location
+
+The data is located on the server in the directory `/sw/courses`.

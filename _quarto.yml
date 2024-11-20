@@ -1,0 +1,29 @@
+project:
+  type: website
+
+website:
+  title: "Introduction to Bioinformatics NGS"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: NGS1.qmd
+        text: quality control
+      - href: NGS2.qmd
+        text: mapping
+
+
+format: 
+  html:
+    code-fold: true
+    code-summary: "Click here to show the code"
+    code-tools: true
+    theme: united
+    self-contained: true
+    page-layout: full
+    toc: true
+    toc-depth: 4
+    css: styles.css
+# engine: knitr
+
+
