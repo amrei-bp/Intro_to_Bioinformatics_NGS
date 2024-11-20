@@ -1,0 +1,150 @@
+# Introduction into NGS Mapping
+
+Now that you have looked at the quality of the samples, let's do the next step of a typical analysis: mapping the reads to a reference genome. Once we know where our reads map we could then continue to annotate our reads. However this will be beyond the scope of this tutorial.
+
+
+# Learning objectives
+
+- learn how to do mapping of sequences
+- try different tools for different types of data
+
+# Preparations
+
+## Connect to Dardel
+
+For this tutorial we will connect to Dardel. For everyone connecting via Kerberos this is the command:
+
+```{.bash}
+ssh -o GSSAPIAuthentication=yes <PDC username>@dardel.pdc.kth.se
+````
+
+## Start a screen session
+
+[Screen](https://www.gnu.org/software/screen/manual/screen.html) or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.
+
+
+Start a `named session`
+
+```{.bash}
+screen -S fastqc
+```
+You can detach from the screen session. The process within the screen will continue to run.
+
+```{.bash}
+Ctrl + a d
+```
+
+You can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:
+
+```{.bash}
+screen -ls
+```
+
+To `resume your screen session` use the following command:
+
+```{.bash}
+screen name
+```
+
+## Change into PDC scratch space
+
+On PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory  it will look something like this:
+
+```{.bash}
+pwd
+```
+
+> /cfs/klemming/home/<user letter>/<user name>
+
+You can always come back to your home directory by entering:
+
+```{.bash}
+cd
+```
+
+The home directories have a quota of 25 GB, so there is not much space in them.
+
+
+However, connected to our home directories, PDC has a `temporary disk space, called scratch`. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.
+
+To move into the scratch space, change into it:
+
+```{.bash}
+cd $PDC_TMP
+```
+
+You can check that you are in it by printing your working directory:
+
+```{.bash}
+pwd
+```
+
+> /cfs/klemming/scratch/<user letter>/<user name>
+
+
+# Read mapping
+
+When studying an organism with a reference genome, it is possible to infer which transcripts are expressed by mapping the reads to the reference genome (**genome mapping**) or transcriptome (**transcriptome mapping**). Mapping reads to the genome requires no knowledge of the set of transcribed regions or the way in which exons are spliced together. This approach allows the discovery of new, unannotated transcripts. ^[[ https://www.ebi.ac.uk/training/online/courses/functional-genomics-ii-common-technologies-and-data-analysis-methods/rna-sequencing/performing-a-rna-seq-experiment/data-analysis/read-mapping-or-alignment/ ]( https://www.ebi.ac.uk/training/online/courses/functional-genomics-ii-common-technologies-and-data-analysis-methods/rna-sequencing/performing-a-rna-seq-experiment/data-analysis/read-mapping-or-alignment/ )]
+
+Read mapping is the process to align the reads on a reference genome. A mapper takes as input a reference genome and a set of reads. Its aim is to align each read in the set of reads on the reference genome, allowing mismatches, indels and clipping of some short fragments on the two ends of the reads.  
+
+Below is an illustration of the mapping process. The input consists of a set of reads and a reference genome. In the middle, it gives the results of mapping: the locations of the reads on the reference genome. The first read is aligned at position 100 and the alignment has two mismatches. The second read is aligned at position 114. It is a local alignment with clippings on the left and right. The third read is aligned at position 123. It consists of a 2-base insertion and a 1-base deletion  ^[[https://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/mapping/tutorial.html ](https://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/mapping/tutorial.html )]. 
+
+<br><br>
+![](images/mapping.png)
+
+
+# Data
+
+In this tutorial we will map data of two experiments against a reference sequence.
+
+The first data set is a paired end DNA sequence of a cassava genotype called TMEB117 and the second data set is a paired end RNA sequencing from a cassava genotype called TMEB419. You have worked with these samples in the last exercise. 
+
+And again a special shoutout to Andreas Gisel for providing these samples!
+
+The reference sequence is chromosome01 from the latest cassava genome built [V8](https://phytozome-next.jgi.doe.gov/info/Mesculenta_v8_1).
+
+## Create a directory to work in
+
+Start by creating a workspace for this exercise in your scratch folder, and then move into it:
+
+```{.bash}
+mkdir -p  NGI_course/mapping/ref
+cd NGI_course/mapping/ref
+```
+
+## Symbolic links to data
+
+To save time and computation power we will use only chromosome01 for the exercise.
+
+The reference data files are located in:
+
+```{.bash}
+/sw/courses/slu_bioinfo
+```
+
+You could copy the files into your workspace to access them. However, it is better to create symbolic links (also called soft links) to the data files. This saves disk space and still allows you to work with them as if they were in your own directory.
+
+Create symbolic links to the fastq files in your workspace:
+
+```{.bash}
+ln -s /sw/courses/slu_bioinfo/chromosome01.fasta  .
+ln -s /sw/courses/slu_bioinfo/Mesculenta_671_v8.1.gene_exons.gtf .
+ln -s /sw/courses/slu_bioinfo/Mesculenta_671_v8.1.gene_exons.gff3 .
+```
+
+Check that you can now see the linked files in the directory and move back into the directory "mapping".
+
+```{.bash}
+ls
+cd ..
+```
+
+# Mapping DNA sequences
+
+## Bowtie 2
+
+Now we are all set to map our paired end DNA sequences onto the reference.
+
+[Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/index.shtml) is an ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences. It is particularly good at aligning reads of about 50 up to 100s or 1,000s of characters, and particularly good at aligning to relatively long (e.g. mammalian) genomes. Bowtie 2 indexes the genome with an FM Index to keep its memory footprint small: for the human genome, its memory footprint is typically around 3.2 GB. Bowtie 2 supports gapped, local, and paired-end alignment modes.
+

@@ -1,8 +1,9 @@
-# Within this tutorial we will
+# In this tutorial we will
 
 - run `fastqc` of some NGS files to learn to understand the output
 - learn about containers, and where to get them, and how to use them with `apptainer`
 - run `multiqc` to aggregate multiple reports from a variety of tools
+- run `fastp` to do adapter trimming
 
 # Preparations
 
@@ -82,8 +83,8 @@ pwd
 Start by creating a workspace for the raw data used in this exercise in your scratch space, and then move into it:
 
 ```{.bash}
-mkdir -p  NGI_course/qc/raw
-cd NGI_course/qc/raw
+mkdir -p  NGS_course/raw
+cd NGS_course/raw
 ```
 
 ## Create symbolic link to the data
@@ -105,7 +106,7 @@ ln -s /sw/courses/slu_bioinfo/*.fastq .
 You now have four files in your directory: two for the TMEB117 cultivar containing the DNA sequences, and two for the TMEB419 cultivar, containing the RNA sequencing results.
 
 
-# FASTQC
+# FastQC
 
 [`Fastqc`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a simple tool to monitor the quality and the properties of a NGS sequencing file in fastq, SAM and BAM format.
 
@@ -113,17 +114,22 @@ FastQC performs a series of quality control analyses, called modules. The output
 
 Keep in mind that even though FastQC is giving out pass/fail results for your samples, these evaluations must be taken in the context of what you expect from your library. A ‘normal’ sample as far as FastQC is concerned is random and diverse. However, because of project design your samples might deviate from this expectation. The summary evaluations should be pointers to where you have to concentrate your attention and understand why your library may not look random and diverse.
 
-## Running fastqc
+## Apptainer
 
 There are several ways to manage bioinformatics tools, such as using `Conda`, `container platforms`, or the `module system`, which you might have encountered in a previous course.
 
 In this tutorial, we will focus on `Apptainer` — the open-source version of Singularity. By using Apptainer, we are flexible in running tools and specific tool versions that may not be directly installed on the system we are working on. All we need for this is a system where Apptainer is installed. Luckily for us, Dardel is one such system.
 
+Load the module with
+
+```{.bash}
+module load PDC apptainer
+```
+
 Make a directory for the output of the tool:
 
 ```{.bash}
 cd .. 
-
 mkdir fastqc
 ```
 
@@ -135,8 +141,7 @@ pwd
 
 You should be located in
 
-
-> <your_scratch_space>/NGI_course/qc
+> <your_scratch_space>/NGS_course
 
 ## Getting apptainer image
 
@@ -193,13 +198,21 @@ Dardel is using `slurm` as its jobmanager (as you have heard earlier today). We 
 
 Again, we want to maintain a clean and orderly project directory:
 
-In your rnaseq folder, create a new directory called scripts, within this directory create a file called fastqc.sh.
+In your NGS_course folder, create a new directory called scripts, within this directory create a file called fastqc.sh.
 
 ```{.bash}
 mkdir scripts
 cd scripts
+module load nano/7.2
 nano fastqc.sh
 ```
+
+::: {.callout-tip}
+## Nano
+Nano is a Linux command line text editor. Commands are prefixed with `^`or `M` characters. The caret symbol `^` represents the `Ctrl` key. For example, the `^X` commands mean to press the `Ctrl` and `X` keys at the same time. The letter `M` represents the `Alt` key. 
+
+More information [here](https://linuxize.com/post/how-to-use-nano-text-editor/).
+:::
 
 Copy the following into the file, and save the contents. Read through the file and try to understand what the different lines are doing.
 
@@ -220,7 +233,6 @@ singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastqc_0.12.1.si
     fastqc -t $CPUS -o fastqc/ raw/*.fastq
     echo "complete"
 ```
- 
 
 The slurm options used here:
 
@@ -229,9 +241,10 @@ The slurm options used here:
 - n number of cpus
 - p partition to use - here we will use the shared partition
 
-Submit the script to slurm:
+Move back into the NGS_course directory and submit the script to slurm:
 
 ```{.bash}
+cd ..
 sbatch fastqc.sh
 ```
 
@@ -257,7 +270,7 @@ For each fastq file you will get two output files:
 Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command:
 
 ```{.bash}
-rsync -ah <user>@dardel.pdc.kth.se:/cfs/klemming/scratch/<user_letter>/<user>/NGI_course/qc/fastqc .
+rsync -ah <user>@dardel.pdc.kth.se:/cfs/klemming/scratch/<user_letter>/<user>/NGS_course/qc/fastqc .
 ```
 
 
@@ -266,15 +279,15 @@ Let's look at the files. Go through the reports to understand your sample.
 
 You see that it is getting kind of tedious to look through all the different files one by one. Okay with only a few files, but imagine having to sift through a few dozen, or even hundreds of reports.
 
-## MultiQC
+# MultiQC
 
 [MultiQC](https://seqera.io/multiqc/) searches a given directory for analysis logs and compiles a HTML report. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools. It aggregates results from bioinformatics analyses across many samples into a single report.
 
-### Building apptainer image
+### Build the apptainer image
 
 On the seqera container page choose `bioconda::multiqc` for your container image. Proceed to build the container image, following the steps we did for `fastqc`.
 
-### Download container images
+### Download container image
 
 Download the container image with singularity pull. The `--name` flag lets you re-name the image to a more intuitive name. 
 
@@ -319,7 +332,7 @@ The command output looks something like:
 /// MultiQC 🔍 v1.25.1
 
 config | Loading config settings from: multiqc_config.yaml
-file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGI_course/qc
+file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc
 
 fastqc | Found 4 reports
 
@@ -328,11 +341,17 @@ write_results | Report      : multiqc/multiqc_report.html   (overwritten)
 multiqc | MultiQC complete
 
 
-Download the report and look at it. Understand what is going on. Read the documentation.
+Download the report and look at it. 
+
+::: {.callout-tip}
+## Exercise
+
+Understand what is going on. Read the documentation.
 
 Do we need to adapter trim any samples?
+:::
 
-## FastP
+# FastP
 
 [FastP](https://github.com/OpenGene/fastp) is a FASTQ data pre-processing tool. The algorithm has functions for quality control, trimming of adapters, filtering by quality, and read pruning.
 
@@ -386,7 +405,7 @@ Do you understand the bash script? Discuss with your neighbour and check out the
 
 
 
- ::: {.callout-tip}
+::: {.callout-tip}
 ## Exercise
 
 Once you get the cleaned sequences run multiqc again to check the result.
