@@ -1,0 +1,1 @@
+Sitemap: https://amrei-bp.github.io/Intro_to_Bioinformatics_NGS/sitemap.xml

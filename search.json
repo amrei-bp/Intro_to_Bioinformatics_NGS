@@ -1,17 +1,17 @@
 [
   {
-    "objectID": "NGS2.html",
-    "href": "NGS2.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "",
     "section": "",
     "text": "Code\n\n\n\n\n\n\nThe data\nThe data we will be working on today are DNA sequencing data and RNA sequencing data from cassava cultivars.\nThe paired end DNA sequences were retreived from the cassava cultivar called TMEB117, a strain that whose genome is now known and that, due to its susceptibility to certain cassava diseases, can be used as a reference for studying virus resistance mechanisms in cassava.\nThe paired end RNA sequencing data comes from a cassava genotype called TMEB419. This cultivar was bred to be highly resistant to various cassava viruses and is used commercially.\nSpecial thanks to Andreas Gisel for providing these samples (and the picture above)!\n\n\nData location\nThe data is located on the server in the directory /sw/courses."
+  },
+  {
+    "objectID": "NGS2.html",
+    "href": "NGS2.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
   },
   {
     "objectID": "NGS1.html",
