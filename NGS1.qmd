@@ -23,7 +23,7 @@ ssh -o GSSAPIAuthentication=yes <PDC username>@dardel.pdc.kth.se
 Start a `named session`
 
 ```{.bash}
-screen -S fastqc
+screen -S qc
 ```
 You can detach from the screen session. The process within the screen will continue to run.
 
@@ -51,7 +51,7 @@ On PDC course allocations do not get an assigned storage allocation. They expect
 pwd
 ```
 
-> /cfs/klemming/home/<user letter>/<user name>
+> /cfs/klemming/home/\<user letter>/\<user name>
 
 You can always come back to your home directory by entering:
 
@@ -76,7 +76,7 @@ You can check that you are in it by printing your working directory:
 pwd
 ```
 
-> /cfs/klemming/scratch/<user letter>/<user name>
+> /cfs/klemming/scratch/\<user letter>/\<user name>
 
 ## Create a directory to work in
 
@@ -329,16 +329,16 @@ sbatch scripts/multiqc.sh
 The command output looks something like:
 
 
-/// MultiQC 🔍 v1.25.1
-
-config | Loading config settings from: multiqc_config.yaml
-file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc
-
-fastqc | Found 4 reports
-
-write_results | Data        : multiqc/multiqc_data   (overwritten)
-write_results | Report      : multiqc/multiqc_report.html   (overwritten)
-multiqc | MultiQC complete
+> /// MultiQC 🔍 v1.25.1
+> 
+> config | Loading config settings from: multiqc_config.yaml
+> file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc
+> 
+> fastqc | Found 4 reports
+> 
+> write_results | Data        : multiqc/multiqc_data   (overwritten)
+> write_results | Report      : multiqc/multiqc_report.html   (overwritten)
+> multiqc | MultiQC complete
 
 
 Download the report and look at it. 
@@ -376,25 +376,57 @@ Run fastp with the following bash script:
 ```{.bash}
 #! /bin/bash -l
 
-#SBATCH -A edu24.bk0001
-#SBATCH -t 15:00
-#SBATCH -n 4
-#SBATCH -p shared
+#SBATCH -A edu24.bk0001      # Project allocation
+#SBATCH -t 15:00             # Time limit
+#SBATCH -n 4                 # Number of cores
+#SBATCH -p shared            # Shared partition
 
+# Load necessary modules
 module load PDC apptainer
 
-# Get CPUS allocated to slurm script (-n above)
+# Get CPUs allocated to the script
 CPUS=$SLURM_NPROCS
 
-singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif \
-    fastp -i raw/TMEB117_R1_frac.fastq \
-    -I raw/TMEB117_R2_frac.fastq \
-    -o fastp/TMEB117_R1_frac_trim.fastq \
-    -O fastp/TMEB117_R2_frac_trim.fastq \
-    --json fastp/TMEB117_fastp.json \
-    --html fastp/TMEB117_fastp.html
+# Define input files
+DATA_DIR=raw/
+OUT_DIR=fastp/
+FILES=( $DATA_DIR/*_R1*.fastq )
 
-    echo "complete"
+# Function to run fastp
+apply_fastp() {
+    READ1="$1"      # Read 1 of the pair
+    READ2="$2"      # Read 2 of the pair
+
+    # Ensure READ1 and READ2 are distinct
+    if [ "$READ1" == "$READ2" ]; then
+        >&2 echo "Error: READ1 and READ2 are the same file. Check string substitution."
+        exit 1
+    fi
+
+    # Extract prefix from READ1
+    PREFIX=$(basename "${READ1%_R1*}")
+
+    # Run fastp within the Singularity container
+    singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif \
+        fastp -w $CPUS \
+        -i "$READ1" \
+        -I "$READ2" \
+        -o "${OUT_DIR}${PREFIX}_fastp-trimmed_R1.fastq" \
+        -O "${OUT_DIR}${PREFIX}_fastp-trimmed_R2.fastq" \
+        --json "${OUT_DIR}${PREFIX}_fastp.json" \
+        --html "${OUT_DIR}${PREFIX}_fastp.html"
+
+    echo "Processed ${PREFIX}"
+}
+
+# Main script execution
+# Process files as pairs
+for ((i = 0; i < ${#FILES[@]}; i+=1)); do 
+    FASTQ="${FILES[i]}"
+    apply_fastp "$FASTQ" "${FASTQ/_R1/_R2}"
+done
+
+echo "complete"
 ```
 
 ::: {.callout-tip}

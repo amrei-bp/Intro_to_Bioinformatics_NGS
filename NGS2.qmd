@@ -26,7 +26,7 @@ ssh -o GSSAPIAuthentication=yes <PDC username>@dardel.pdc.kth.se
 Start a `named session`
 
 ```{.bash}
-screen -S fastqc
+screen -S mapping
 ```
 You can detach from the screen session. The process within the screen will continue to run.
 
@@ -54,7 +54,7 @@ On PDC course allocations do not get an assigned storage allocation. They expect
 pwd
 ```
 
-> /cfs/klemming/home/<user letter>/<user name>
+> /cfs/klemming/home/\<user letter>/\<user name>
 
 You can always come back to your home directory by entering:
 
@@ -79,7 +79,7 @@ You can check that you are in it by printing your working directory:
 pwd
 ```
 
-> /cfs/klemming/scratch/<user letter>/<user name>
+> /cfs/klemming/scratch/\<user letter>/\<user name>
 
 
 # Read mapping
@@ -109,8 +109,8 @@ The reference sequence is chromosome01 from the latest cassava genome built [V8]
 Start by creating a workspace for this exercise in your scratch folder, and then move into it:
 
 ```{.bash}
-mkdir -p  NGI_course/mapping/ref
-cd NGI_course/mapping/ref
+mkdir -p  NGS_course/mapping/ref
+cd NGS_course/mapping/ref
 ```
 
 ## Symbolic links to data
@@ -147,4 +147,23 @@ cd ..
 Now we are all set to map our paired end DNA sequences onto the reference.
 
 [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/index.shtml) is an ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences. It is particularly good at aligning reads of about 50 up to 100s or 1,000s of characters, and particularly good at aligning to relatively long (e.g. mammalian) genomes. Bowtie 2 indexes the genome with an FM Index to keep its memory footprint small: for the human genome, its memory footprint is typically around 3.2 GB. Bowtie 2 supports gapped, local, and paired-end alignment modes.
+
+## Apptainer image
+
+Go to [seqera containers](https://seqera.io/containers/), and get the container image path for `bioconda::bowtie2`. 
+
+Pull the image 
+
+::: {.callout-caution collapse="true"}
+## Expand to see the code - try yourself first
+```{.bash}
+singularity pull --name bowtie2_2.5.4.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/9b/9bbc1c148cefc585f681c71d9369a84f72f46ff1195850c7d416f9bbf65cb51e/data
+```
+:::
+
+## Create index
+
+Each NGS mapper uses indices to accelerate the mapping process, but unfortunately each one has his own way to create these indices. Therefore we first need to create the index for `bowtie2` of our reference sequence, which we will call Bowtie2Cassava01Index and will be located in the reference directory: 
+
+
 
