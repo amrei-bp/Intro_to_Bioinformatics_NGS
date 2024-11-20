@@ -25,21 +25,21 @@
     "href": "NGS2.html#start-a-screen-session",
     "title": "",
     "section": "Start a screen session",
-    "text": "Start a screen session\nScreen or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.\nStart a named session\nscreen -S fastqc\nYou can detach from the screen session. The process within the screen will continue to run.\nCtrl + a d\nYou can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:\nscreen -ls\nTo resume your screen session use the following command:\nscreen name"
+    "text": "Start a screen session\nScreen or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.\nStart a named session\nscreen -S mapping\nYou can detach from the screen session. The process within the screen will continue to run.\nCtrl + a d\nYou can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:\nscreen -ls\nTo resume your screen session use the following command:\nscreen name"
   },
   {
     "objectID": "NGS2.html#change-into-pdc-scratch-space",
     "href": "NGS2.html#change-into-pdc-scratch-space",
     "title": "",
     "section": "Change into PDC scratch space",
-    "text": "Change into PDC scratch space\nOn PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory it will look something like this:\npwd\n\n/cfs/klemming/home//\n\nYou can always come back to your home directory by entering:\ncd\nThe home directories have a quota of 25 GB, so there is not much space in them.\nHowever, connected to our home directories, PDC has a temporary disk space, called scratch. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.\nTo move into the scratch space, change into it:\ncd $PDC_TMP\nYou can check that you are in it by printing your working directory:\npwd\n\n/cfs/klemming/scratch//"
+    "text": "Change into PDC scratch space\nOn PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory it will look something like this:\npwd\n\n/cfs/klemming/home/&lt;user letter&gt;/&lt;user name&gt;\n\nYou can always come back to your home directory by entering:\ncd\nThe home directories have a quota of 25 GB, so there is not much space in them.\nHowever, connected to our home directories, PDC has a temporary disk space, called scratch. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.\nTo move into the scratch space, change into it:\ncd $PDC_TMP\nYou can check that you are in it by printing your working directory:\npwd\n\n/cfs/klemming/scratch/&lt;user letter&gt;/&lt;user name&gt;"
   },
   {
     "objectID": "NGS2.html#create-a-directory-to-work-in",
     "href": "NGS2.html#create-a-directory-to-work-in",
     "title": "",
     "section": "Create a directory to work in",
-    "text": "Create a directory to work in\nStart by creating a workspace for this exercise in your scratch folder, and then move into it:\nmkdir -p  NGI_course/mapping/ref\ncd NGI_course/mapping/ref"
+    "text": "Create a directory to work in\nStart by creating a workspace for this exercise in your scratch folder, and then move into it:\nmkdir -p  NGS_course/mapping/ref\ncd NGS_course/mapping/ref"
   },
   {
     "objectID": "NGS2.html#symbolic-links-to-data",
@@ -54,6 +54,20 @@
     "title": "",
     "section": "Bowtie 2",
     "text": "Bowtie 2\nNow we are all set to map our paired end DNA sequences onto the reference.\nBowtie2 is an ultrafast and memory-efficient tool for aligning sequencing reads to long reference sequences. It is particularly good at aligning reads of about 50 up to 100s or 1,000s of characters, and particularly good at aligning to relatively long (e.g. mammalian) genomes. Bowtie 2 indexes the genome with an FM Index to keep its memory footprint small: for the human genome, its memory footprint is typically around 3.2 GB. Bowtie 2 supports gapped, local, and paired-end alignment modes."
+  },
+  {
+    "objectID": "NGS2.html#apptainer-image",
+    "href": "NGS2.html#apptainer-image",
+    "title": "",
+    "section": "Apptainer image",
+    "text": "Apptainer image\nGo to seqera containers, and get the container image path for bioconda::bowtie2.\nPull the image\n\n\n\n\n\n\nExpand to see the code - try yourself first\n\n\n\n\n\nsingularity pull --name bowtie2_2.5.4.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/9b/9bbc1c148cefc585f681c71d9369a84f72f46ff1195850c7d416f9bbf65cb51e/data"
+  },
+  {
+    "objectID": "NGS2.html#create-index",
+    "href": "NGS2.html#create-index",
+    "title": "",
+    "section": "Create index",
+    "text": "Create index\nEach NGS mapper uses indices to accelerate the mapping process, but unfortunately each one has his own way to create these indices. Therefore we first need to create the index for bowtie2 of our reference sequence, which we will call Bowtie2Cassava01Index and will be located in the reference directory:"
   },
   {
     "objectID": "NGS2.html#footnotes",
@@ -81,14 +95,14 @@
     "href": "NGS1.html#start-a-screen-session",
     "title": "",
     "section": "Start a screen session",
-    "text": "Start a screen session\nScreen or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.\nStart a named session\nscreen -S fastqc\nYou can detach from the screen session. The process within the screen will continue to run.\nCtrl + a d\nYou can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:\nscreen -ls\nTo resume your screen session use the following command:\nscreen name"
+    "text": "Start a screen session\nScreen or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.\nStart a named session\nscreen -S qc\nYou can detach from the screen session. The process within the screen will continue to run.\nCtrl + a d\nYou can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:\nscreen -ls\nTo resume your screen session use the following command:\nscreen name"
   },
   {
     "objectID": "NGS1.html#change-into-pdc-scratch-space",
     "href": "NGS1.html#change-into-pdc-scratch-space",
     "title": "",
     "section": "Change into PDC scratch space",
-    "text": "Change into PDC scratch space\nOn PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory it will look something like this:\npwd\n\n/cfs/klemming/home//\n\nYou can always come back to your home directory by entering:\ncd\nThe home directories have a quota of 25 GB, so there is not much space in them.\nHowever, connected to our home directories, PDC has a temporary disk space, called scratch. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.\nTo move into the scratch space, change into it:\ncd $PDC_TMP\nYou can check that you are in it by printing your working directory:\npwd\n\n/cfs/klemming/scratch//"
+    "text": "Change into PDC scratch space\nOn PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory it will look something like this:\npwd\n\n/cfs/klemming/home/&lt;user letter&gt;/&lt;user name&gt;\n\nYou can always come back to your home directory by entering:\ncd\nThe home directories have a quota of 25 GB, so there is not much space in them.\nHowever, connected to our home directories, PDC has a temporary disk space, called scratch. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.\nTo move into the scratch space, change into it:\ncd $PDC_TMP\nYou can check that you are in it by printing your working directory:\npwd\n\n/cfs/klemming/scratch/&lt;user letter&gt;/&lt;user name&gt;"
   },
   {
     "objectID": "NGS1.html#create-a-directory-to-work-in",

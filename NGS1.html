@@ -4841,7 +4841,7 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="start-a-screen-session">Start a screen session</h2>
 <p><a href="https://www.gnu.org/software/screen/manual/screen.html">Screen</a> or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.</p>
 <p>Start a <code>named session</code></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">screen</span> <span class="at">-S</span> fastqc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">screen</span> <span class="at">-S</span> qc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can detach from the screen session. The process within the screen will continue to run.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Ctrl</span> + a d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:</p>
@@ -4854,7 +4854,7 @@ vertical-align: -.125em;
 <p>On PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory it will look something like this:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <blockquote class="blockquote">
-<p>/cfs/klemming/home/<user letter>/<user name></user></user></p>
+<p>/cfs/klemming/home/&lt;user letter&gt;/&lt;user name&gt;</p>
 </blockquote>
 <p>You can always come back to your home directory by entering:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4865,7 +4865,7 @@ vertical-align: -.125em;
 <p>You can check that you are in it by printing your working directory:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <blockquote class="blockquote">
-<p>/cfs/klemming/scratch/<user letter>/<user name></user></user></p>
+<p>/cfs/klemming/scratch/&lt;user letter&gt;/&lt;user name&gt;</p>
 </blockquote>
 </section>
 <section id="create-a-directory-to-work-in" class="level2">
@@ -5052,10 +5052,12 @@ Note
 <p>Run the bash script with</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> scripts/multiqc.sh </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The command output looks something like:</p>
+<blockquote class="blockquote">
 <p>/// MultiQC 🔍 v1.25.1</p>
 <p>config | Loading config settings from: multiqc_config.yaml file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc</p>
 <p>fastqc | Found 4 reports</p>
 <p>write_results | Data : multiqc/multiqc_data (overwritten) write_results | Report : multiqc/multiqc_report.html (overwritten) multiqc | MultiQC complete</p>
+</blockquote>
 <p>Download the report and look at it.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -5085,25 +5087,57 @@ Exercise
 <p>Run fastp with the following bash script:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /bin/bash -l</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -A edu24.bk0001</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -t 15:00</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -n 4</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -p shared</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -A edu24.bk0001      # Project allocation</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -t 15:00             # Time limit</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -n 4                 # Number of cores</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -p shared            # Shared partition</span></span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load PDC apptainer</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Get CPUS allocated to slurm script (-n above)</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="va">CPUS</span><span class="op">=</span><span class="va">$SLURM_NPROCS</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="at">-B</span> /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif <span class="dt">\</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    fastp <span class="at">-i</span> raw/TMEB117_R1_frac.fastq <span class="dt">\</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">-I</span> raw/TMEB117_R2_frac.fastq <span class="dt">\</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> fastp/TMEB117_R1_frac_trim.fastq <span class="dt">\</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">-O</span> fastp/TMEB117_R2_frac_trim.fastq <span class="dt">\</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">--json</span> fastp/TMEB117_fastp.json <span class="dt">\</span></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">--html</span> fastp/TMEB117_fastp.html</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;complete&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary modules</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load PDC apptainer</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get CPUs allocated to the script</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="va">CPUS</span><span class="op">=</span><span class="va">$SLURM_NPROCS</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Define input files</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="va">DATA_DIR</span><span class="op">=</span>raw/</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="va">OUT_DIR</span><span class="op">=</span>fastp/</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="va">FILES</span><span class="op">=</span><span class="va">(</span> <span class="va">$DATA_DIR</span>/<span class="pp">*</span>_R1<span class="pp">*</span>.fastq <span class="va">)</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to run fastp</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="fu">apply_fastp()</span> <span class="kw">{</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">READ1</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span>      <span class="co"># Read 1 of the pair</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">READ2</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span>      <span class="co"># Read 2 of the pair</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure READ1 and READ2 are distinct</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$READ1</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;</span><span class="va">$READ2</span><span class="st">&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&amp;</span><span class="dv">2</span> <span class="bu">echo</span> <span class="st">&quot;Error: READ1 and READ2 are the same file. Check string substitution.&quot;</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">exit</span> 1</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract prefix from READ1</span></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>    <span class="va">PREFIX</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">${READ1</span><span class="op">%</span>_R1<span class="pp">*</span><span class="va">}</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Run fastp within the Singularity container</span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    <span class="ex">singularity</span> exec <span class="at">-B</span> /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif <span class="dt">\</span></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>        fastp <span class="at">-w</span> <span class="va">$CPUS</span> <span class="dt">\</span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">-i</span> <span class="st">&quot;</span><span class="va">$READ1</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">-I</span> <span class="st">&quot;</span><span class="va">$READ2</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">-o</span> <span class="st">&quot;</span><span class="va">${OUT_DIR}${PREFIX}</span><span class="st">_fastp-trimmed_R1.fastq&quot;</span> <span class="dt">\</span></span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">-O</span> <span class="st">&quot;</span><span class="va">${OUT_DIR}${PREFIX}</span><span class="st">_fastp-trimmed_R2.fastq&quot;</span> <span class="dt">\</span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">--json</span> <span class="st">&quot;</span><span class="va">${OUT_DIR}${PREFIX}</span><span class="st">_fastp.json&quot;</span> <span class="dt">\</span></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">--html</span> <span class="st">&quot;</span><span class="va">${OUT_DIR}${PREFIX}</span><span class="st">_fastp.html&quot;</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Processed </span><span class="va">${PREFIX}</span><span class="st">&quot;</span></span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Main script execution</span></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Process files as pairs</span></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">((</span><span class="va">i</span> <span class="op">=</span> <span class="dv">0</span><span class="kw">;</span> <span class="va">i</span> <span class="op">&lt;</span> <span class="va">${</span><span class="op">#</span><span class="va">FILES</span><span class="op">[@]</span><span class="va">}</span><span class="kw">;</span> <span class="va">i</span><span class="op">+=</span><span class="dv">1</span><span class="kw">));</span> <span class="cf">do</span> </span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>    <span class="va">FASTQ</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${FILES</span><span class="op">[</span>i<span class="op">]</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>    <span class="ex">apply_fastp</span> <span class="st">&quot;</span><span class="va">$FASTQ</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${FASTQ</span><span class="op">/</span><span class="ss">_R1</span><span class="op">/</span>_R2<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;complete&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -5633,7 +5667,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>Start a <span class="in">`named session`</span></span>
 <span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{.bash}</span></span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="in">screen -S fastqc</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="in">screen -S qc</span></span>
 <span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>You can detach from the screen session. The process within the screen will continue to run.</span>
 <span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a></span>
@@ -5661,7 +5695,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a><span class="in">pwd</span></span>
 <span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; /cfs/klemming/home/</span>&lt;user letter&gt;<span class="at">/</span>&lt;user name&gt;</span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; /cfs/klemming/home/</span><span class="sc">\&lt;</span><span class="at">user letter&gt;/</span><span class="sc">\&lt;</span><span class="at">user name&gt;</span></span>
 <span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a>You can always come back to your home directory by entering:</span>
 <span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a></span>
@@ -5686,7 +5720,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-76"><a href="#cb29-76" aria-hidden="true" tabindex="-1"></a><span class="in">pwd</span></span>
 <span id="cb29-77"><a href="#cb29-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-78"><a href="#cb29-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-79"><a href="#cb29-79" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; /cfs/klemming/scratch/</span>&lt;user letter&gt;<span class="at">/</span>&lt;user name&gt;</span>
+<span id="cb29-79"><a href="#cb29-79" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; /cfs/klemming/scratch/</span><span class="sc">\&lt;</span><span class="at">user letter&gt;/</span><span class="sc">\&lt;</span><span class="at">user name&gt;</span></span>
 <span id="cb29-80"><a href="#cb29-80" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-81"><a href="#cb29-81" aria-hidden="true" tabindex="-1"></a><span class="fu">## Create a directory to work in</span></span>
 <span id="cb29-82"><a href="#cb29-82" aria-hidden="true" tabindex="-1"></a></span>
@@ -5939,16 +5973,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-329"><a href="#cb29-329" aria-hidden="true" tabindex="-1"></a>The command output looks something like:</span>
 <span id="cb29-330"><a href="#cb29-330" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-331"><a href="#cb29-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-332"><a href="#cb29-332" aria-hidden="true" tabindex="-1"></a>/// MultiQC 🔍 v1.25.1</span>
-<span id="cb29-333"><a href="#cb29-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-334"><a href="#cb29-334" aria-hidden="true" tabindex="-1"></a>config | Loading config settings from: multiqc_config.yaml</span>
-<span id="cb29-335"><a href="#cb29-335" aria-hidden="true" tabindex="-1"></a>file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc</span>
-<span id="cb29-336"><a href="#cb29-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-337"><a href="#cb29-337" aria-hidden="true" tabindex="-1"></a>fastqc | Found 4 reports</span>
-<span id="cb29-338"><a href="#cb29-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-339"><a href="#cb29-339" aria-hidden="true" tabindex="-1"></a>write_results | Data        : multiqc/multiqc_data   (overwritten)</span>
-<span id="cb29-340"><a href="#cb29-340" aria-hidden="true" tabindex="-1"></a>write_results | Report      : multiqc/multiqc_report.html   (overwritten)</span>
-<span id="cb29-341"><a href="#cb29-341" aria-hidden="true" tabindex="-1"></a>multiqc | MultiQC complete</span>
+<span id="cb29-332"><a href="#cb29-332" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; /// MultiQC 🔍 v1.25.1</span></span>
+<span id="cb29-333"><a href="#cb29-333" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb29-334"><a href="#cb29-334" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; config | Loading config settings from: multiqc_config.yaml</span></span>
+<span id="cb29-335"><a href="#cb29-335" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc</span></span>
+<span id="cb29-336"><a href="#cb29-336" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb29-337"><a href="#cb29-337" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; fastqc | Found 4 reports</span></span>
+<span id="cb29-338"><a href="#cb29-338" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb29-339"><a href="#cb29-339" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; write_results | Data        : multiqc/multiqc_data   (overwritten)</span></span>
+<span id="cb29-340"><a href="#cb29-340" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; write_results | Report      : multiqc/multiqc_report.html   (overwritten)</span></span>
+<span id="cb29-341"><a href="#cb29-341" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; multiqc | MultiQC complete</span></span>
 <span id="cb29-342"><a href="#cb29-342" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-343"><a href="#cb29-343" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-344"><a href="#cb29-344" aria-hidden="true" tabindex="-1"></a>Download the report and look at it. </span>
@@ -5986,40 +6020,72 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-376"><a href="#cb29-376" aria-hidden="true" tabindex="-1"></a><span class="in">```{.bash}</span></span>
 <span id="cb29-377"><a href="#cb29-377" aria-hidden="true" tabindex="-1"></a><span class="in">#! /bin/bash -l</span></span>
 <span id="cb29-378"><a href="#cb29-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-379"><a href="#cb29-379" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -A edu24.bk0001</span></span>
-<span id="cb29-380"><a href="#cb29-380" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -t 15:00</span></span>
-<span id="cb29-381"><a href="#cb29-381" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -n 4</span></span>
-<span id="cb29-382"><a href="#cb29-382" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -p shared</span></span>
+<span id="cb29-379"><a href="#cb29-379" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -A edu24.bk0001      # Project allocation</span></span>
+<span id="cb29-380"><a href="#cb29-380" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -t 15:00             # Time limit</span></span>
+<span id="cb29-381"><a href="#cb29-381" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -n 4                 # Number of cores</span></span>
+<span id="cb29-382"><a href="#cb29-382" aria-hidden="true" tabindex="-1"></a><span class="in">#SBATCH -p shared            # Shared partition</span></span>
 <span id="cb29-383"><a href="#cb29-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-384"><a href="#cb29-384" aria-hidden="true" tabindex="-1"></a><span class="in">module load PDC apptainer</span></span>
-<span id="cb29-385"><a href="#cb29-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-386"><a href="#cb29-386" aria-hidden="true" tabindex="-1"></a><span class="in"># Get CPUS allocated to slurm script (-n above)</span></span>
-<span id="cb29-387"><a href="#cb29-387" aria-hidden="true" tabindex="-1"></a><span class="in">CPUS=$SLURM_NPROCS</span></span>
-<span id="cb29-388"><a href="#cb29-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-389"><a href="#cb29-389" aria-hidden="true" tabindex="-1"></a><span class="in">singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif \</span></span>
-<span id="cb29-390"><a href="#cb29-390" aria-hidden="true" tabindex="-1"></a><span class="in">    fastp -i raw/TMEB117_R1_frac.fastq \</span></span>
-<span id="cb29-391"><a href="#cb29-391" aria-hidden="true" tabindex="-1"></a><span class="in">    -I raw/TMEB117_R2_frac.fastq \</span></span>
-<span id="cb29-392"><a href="#cb29-392" aria-hidden="true" tabindex="-1"></a><span class="in">    -o fastp/TMEB117_R1_frac_trim.fastq \</span></span>
-<span id="cb29-393"><a href="#cb29-393" aria-hidden="true" tabindex="-1"></a><span class="in">    -O fastp/TMEB117_R2_frac_trim.fastq \</span></span>
-<span id="cb29-394"><a href="#cb29-394" aria-hidden="true" tabindex="-1"></a><span class="in">    --json fastp/TMEB117_fastp.json \</span></span>
-<span id="cb29-395"><a href="#cb29-395" aria-hidden="true" tabindex="-1"></a><span class="in">    --html fastp/TMEB117_fastp.html</span></span>
-<span id="cb29-396"><a href="#cb29-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-397"><a href="#cb29-397" aria-hidden="true" tabindex="-1"></a><span class="in">    echo &quot;complete&quot;</span></span>
-<span id="cb29-398"><a href="#cb29-398" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb29-384"><a href="#cb29-384" aria-hidden="true" tabindex="-1"></a><span class="in"># Load necessary modules</span></span>
+<span id="cb29-385"><a href="#cb29-385" aria-hidden="true" tabindex="-1"></a><span class="in">module load PDC apptainer</span></span>
+<span id="cb29-386"><a href="#cb29-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-387"><a href="#cb29-387" aria-hidden="true" tabindex="-1"></a><span class="in"># Get CPUs allocated to the script</span></span>
+<span id="cb29-388"><a href="#cb29-388" aria-hidden="true" tabindex="-1"></a><span class="in">CPUS=$SLURM_NPROCS</span></span>
+<span id="cb29-389"><a href="#cb29-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-390"><a href="#cb29-390" aria-hidden="true" tabindex="-1"></a><span class="in"># Define input files</span></span>
+<span id="cb29-391"><a href="#cb29-391" aria-hidden="true" tabindex="-1"></a><span class="in">DATA_DIR=raw/</span></span>
+<span id="cb29-392"><a href="#cb29-392" aria-hidden="true" tabindex="-1"></a><span class="in">OUT_DIR=fastp/</span></span>
+<span id="cb29-393"><a href="#cb29-393" aria-hidden="true" tabindex="-1"></a><span class="in">FILES=( $DATA_DIR/*_R1*.fastq )</span></span>
+<span id="cb29-394"><a href="#cb29-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-395"><a href="#cb29-395" aria-hidden="true" tabindex="-1"></a><span class="in"># Function to run fastp</span></span>
+<span id="cb29-396"><a href="#cb29-396" aria-hidden="true" tabindex="-1"></a><span class="in">apply_fastp() {</span></span>
+<span id="cb29-397"><a href="#cb29-397" aria-hidden="true" tabindex="-1"></a><span class="in">    READ1=&quot;$1&quot;      # Read 1 of the pair</span></span>
+<span id="cb29-398"><a href="#cb29-398" aria-hidden="true" tabindex="-1"></a><span class="in">    READ2=&quot;$2&quot;      # Read 2 of the pair</span></span>
 <span id="cb29-399"><a href="#cb29-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-400"><a href="#cb29-400" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb29-401"><a href="#cb29-401" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise</span></span>
-<span id="cb29-402"><a href="#cb29-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-403"><a href="#cb29-403" aria-hidden="true" tabindex="-1"></a>Do you understand the bash script? Discuss with your neighbour and check out the manual for fastp.</span>
-<span id="cb29-404"><a href="#cb29-404" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb29-400"><a href="#cb29-400" aria-hidden="true" tabindex="-1"></a><span class="in">    # Ensure READ1 and READ2 are distinct</span></span>
+<span id="cb29-401"><a href="#cb29-401" aria-hidden="true" tabindex="-1"></a><span class="in">    if [ &quot;$READ1&quot; == &quot;$READ2&quot; ]; then</span></span>
+<span id="cb29-402"><a href="#cb29-402" aria-hidden="true" tabindex="-1"></a><span class="in">        &gt;&amp;2 echo &quot;Error: READ1 and READ2 are the same file. Check string substitution.&quot;</span></span>
+<span id="cb29-403"><a href="#cb29-403" aria-hidden="true" tabindex="-1"></a><span class="in">        exit 1</span></span>
+<span id="cb29-404"><a href="#cb29-404" aria-hidden="true" tabindex="-1"></a><span class="in">    fi</span></span>
 <span id="cb29-405"><a href="#cb29-405" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-406"><a href="#cb29-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-407"><a href="#cb29-407" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-408"><a href="#cb29-408" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb29-409"><a href="#cb29-409" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise</span></span>
-<span id="cb29-410"><a href="#cb29-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-411"><a href="#cb29-411" aria-hidden="true" tabindex="-1"></a>Once you get the cleaned sequences run multiqc again to check the result.</span>
-<span id="cb29-412"><a href="#cb29-412" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
+<span id="cb29-406"><a href="#cb29-406" aria-hidden="true" tabindex="-1"></a><span class="in">    # Extract prefix from READ1</span></span>
+<span id="cb29-407"><a href="#cb29-407" aria-hidden="true" tabindex="-1"></a><span class="in">    PREFIX=$(basename &quot;${READ1%_R1*}&quot;)</span></span>
+<span id="cb29-408"><a href="#cb29-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-409"><a href="#cb29-409" aria-hidden="true" tabindex="-1"></a><span class="in">    # Run fastp within the Singularity container</span></span>
+<span id="cb29-410"><a href="#cb29-410" aria-hidden="true" tabindex="-1"></a><span class="in">    singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif \</span></span>
+<span id="cb29-411"><a href="#cb29-411" aria-hidden="true" tabindex="-1"></a><span class="in">        fastp -w $CPUS \</span></span>
+<span id="cb29-412"><a href="#cb29-412" aria-hidden="true" tabindex="-1"></a><span class="in">        -i &quot;$READ1&quot; \</span></span>
+<span id="cb29-413"><a href="#cb29-413" aria-hidden="true" tabindex="-1"></a><span class="in">        -I &quot;$READ2&quot; \</span></span>
+<span id="cb29-414"><a href="#cb29-414" aria-hidden="true" tabindex="-1"></a><span class="in">        -o &quot;${OUT_DIR}${PREFIX}_fastp-trimmed_R1.fastq&quot; \</span></span>
+<span id="cb29-415"><a href="#cb29-415" aria-hidden="true" tabindex="-1"></a><span class="in">        -O &quot;${OUT_DIR}${PREFIX}_fastp-trimmed_R2.fastq&quot; \</span></span>
+<span id="cb29-416"><a href="#cb29-416" aria-hidden="true" tabindex="-1"></a><span class="in">        --json &quot;${OUT_DIR}${PREFIX}_fastp.json&quot; \</span></span>
+<span id="cb29-417"><a href="#cb29-417" aria-hidden="true" tabindex="-1"></a><span class="in">        --html &quot;${OUT_DIR}${PREFIX}_fastp.html&quot;</span></span>
+<span id="cb29-418"><a href="#cb29-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-419"><a href="#cb29-419" aria-hidden="true" tabindex="-1"></a><span class="in">    echo &quot;Processed ${PREFIX}&quot;</span></span>
+<span id="cb29-420"><a href="#cb29-420" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb29-421"><a href="#cb29-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-422"><a href="#cb29-422" aria-hidden="true" tabindex="-1"></a><span class="in"># Main script execution</span></span>
+<span id="cb29-423"><a href="#cb29-423" aria-hidden="true" tabindex="-1"></a><span class="in"># Process files as pairs</span></span>
+<span id="cb29-424"><a href="#cb29-424" aria-hidden="true" tabindex="-1"></a><span class="in">for ((i = 0; i &lt; ${#FILES[@]}; i+=1)); do </span></span>
+<span id="cb29-425"><a href="#cb29-425" aria-hidden="true" tabindex="-1"></a><span class="in">    FASTQ=&quot;${FILES[i]}&quot;</span></span>
+<span id="cb29-426"><a href="#cb29-426" aria-hidden="true" tabindex="-1"></a><span class="in">    apply_fastp &quot;$FASTQ&quot; &quot;${FASTQ/_R1/_R2}&quot;</span></span>
+<span id="cb29-427"><a href="#cb29-427" aria-hidden="true" tabindex="-1"></a><span class="in">done</span></span>
+<span id="cb29-428"><a href="#cb29-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-429"><a href="#cb29-429" aria-hidden="true" tabindex="-1"></a><span class="in">echo &quot;complete&quot;</span></span>
+<span id="cb29-430"><a href="#cb29-430" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb29-431"><a href="#cb29-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-432"><a href="#cb29-432" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb29-433"><a href="#cb29-433" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise</span></span>
+<span id="cb29-434"><a href="#cb29-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-435"><a href="#cb29-435" aria-hidden="true" tabindex="-1"></a>Do you understand the bash script? Discuss with your neighbour and check out the manual for fastp.</span>
+<span id="cb29-436"><a href="#cb29-436" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb29-437"><a href="#cb29-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-438"><a href="#cb29-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-439"><a href="#cb29-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-440"><a href="#cb29-440" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb29-441"><a href="#cb29-441" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise</span></span>
+<span id="cb29-442"><a href="#cb29-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-443"><a href="#cb29-443" aria-hidden="true" tabindex="-1"></a>Once you get the cleaned sequences run multiqc again to check the result.</span>
+<span id="cb29-444"><a href="#cb29-444" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
