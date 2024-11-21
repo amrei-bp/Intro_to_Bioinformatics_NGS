@@ -1,4 +1,4 @@
-# Introduction into NGS Mapping
+# Introduction to NGS Mapping
 
 Now that you have looked at the quality of the samples, let's do the next step of a typical analysis: mapping the reads to a reference genome. Once we know where our reads map we could then continue to annotate our reads. However this will be beyond the scope of this tutorial.
 
@@ -7,6 +7,9 @@ Now that you have looked at the quality of the samples, let's do the next step o
 
 - learn how to do mapping of sequences
 - try different tools for different types of data
+- use the command line more and more independently
+- navigate absolute and relative paths when using the command line
+- structure your project directories to be well organized
 
 # Preparations
 
