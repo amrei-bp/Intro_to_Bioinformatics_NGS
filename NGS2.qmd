@@ -163,7 +163,117 @@ singularity pull --name bowtie2_2.5.4.sif https://community-cr-prod.seqera.io/do
 
 ## Create index
 
-Each NGS mapper uses indices to accelerate the mapping process, but unfortunately each one has his own way to create these indices. Therefore we first need to create the index for `bowtie2` of our reference sequence, which we will call Bowtie2Cassava01Index and will be located in the reference directory: 
+Each NGS mapper uses indices to accelerate the mapping process, but unfortunately each one has his own way to create these indices. Therefore we first need to create the index for `bowtie2` of our reference sequence, which we will call Bowtie2Cassava01Index and will be located in the reference directory. 
+
+Create a bash file within the scripts directory:
+
+```{.bash}
+nano bowtie_index.sh
+```
+
+And copy the followiing into the file: 
+
+```{.bash}
+#! /bin/bash -l
+
+#SBATCH -A edu24.bk0001
+#SBATCH -t 05:00
+#SBATCH -n 1
+#SBATCH -p shared
+
+set -ueo pipefail
+
+module load PDC apptainer
+
+# Define input reference and output directory
+REFERENCE=ref/chromosome01.fasta
+OUTPUT_DIR=ref/
+
+singularity exec  -B /sw/courses/slu_bioinfo/ ../singularity_images/bowtie2_2.5.4.sif \
+    bowtie2-build -o 3 $REFERENCE $OUTPUT_DIR/Bowtie2Cassava01Index
+    
+echo "complete"
+```
+
+Save the above code and run the script using
+
+```{.bash}
+sbatch ../scripts/bowtie_index.sh
+```
+
+::: {.callout-important}
+Make sure you run this code from within the "mapping directory". 
+:::
+
+You will get the following index files:
+
+![](images/Bowtie_Index_files.png)
 
 
+## Map with bowtie2
+
+Now that we have the index we create a directory for the bowtie2 results:
+
+```{.bash}
+mkdir bowtie2
+```
+
+and then we can run the mapping: 
+
+Make a file in the scripts folder `bowtie2_mapping.sh`.
+
+```{.bash}
+#! /bin/bash -l
+
+#SBATCH -A edu24.bk0001
+#SBATCH -t 15:00
+#SBATCH -n 4
+#SBATCH -p shared
+
+set -ueo pipefail
+
+module load PDC apptainer
+
+# Get CPUS allocated to slurm script (-n above)
+CPUS=$SLURM_NPROCS
+
+INDEX=ref/Bowtie2Cassava01Index
+R1=../raw/TMEB117_R1_frac.fastq
+R2=../raw/TMEB117_R2_frac.fastq
+
+singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/bowtie2_2.5.4.sif \
+    bowtie2 --very-sensitive-local \
+    --threads $CPUS \
+    -x $INDEX \
+    -S bowtie2/TMEB117.sam \
+    -1 $R1 \
+    -2 $R2 |& tee bowtie2/TMEB117.log
+
+echo "complete"
+```
+
+Save the script in the scripts directory and run the code. 
+
+We will get a mapping file in the SAM format and the log file with the mapping statistics.
+
+> mapping/TMEB117.sam
+> mapping/TMEB117.log
+
+::: {.callout-tip}
+## Exercise
+
+Check the log and find how many unique hits of pairs we have.
+:::
+
+Check the SAM file and check how many hits we have - use `samtools` to do so. Module load the tool, or get the appropriate container. Look into the `samtools manual` to figure out how to look at the file.
+
+Now you can play around a bit. You could see what influence the trimming might have on the mapping of these data. For that re-run the mapping with the trimmed data. Make sure you point towards the correct file paths!
+
+Check the log and SAM file and see what difference we have.
+
+Time allowing, I propose to run a third test mapping either using the raw data of trimmed data by changing the mapping mode from local to end-to-end or from very-sensitive to fast, loosing some accuracy but reducing the mapping time.
+
+Replace in the commands above *--very-sensitive-local* to *--very-sensitive*   or from *--very-sensitive-local* to *--fast-local*.
+
+Again, compare the output with the previous ones.
 
