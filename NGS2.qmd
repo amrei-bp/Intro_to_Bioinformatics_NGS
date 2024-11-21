@@ -277,3 +277,125 @@ Replace in the commands above *--very-sensitive-local* to *--very-sensitive*   o
 
 Again, compare the output with the previous ones.
 
+# Mapping RNA seq data
+
+The data set `TMEB117` is `DNA` sequencing data and `bowtie2` the right tool for mapping and data analysis.
+
+`TMEB419` however is `RNA` sequencing data. While we could map the data with bowtie2 (try it out if you want to), there are aligners that are dedicated for RNA sequencing data. These find splicing sites within the reads and guarantee an accurate reconstruction of the sequenced transcripts.
+
+## STAR
+
+[STAR](https://github.com/alexdobin/STAR) is one such spicing site sensitive mapper for RNA sequencing data.
+
+## Apptainer image 
+
+
+Go to [seqera containers](https://seqera.io/containers/), and get the container image path for `bioconda::star`. 
+
+Pull the image into the same directory as the other container images.
+
+::: {.callout-note}
+
+Which one was that again?
+:::
+
+::: {.callout-caution collapse="true"}
+## Expand to see the code for the pull - try yourself first
+```{.bash}
+singularity pull --name star_2.7.11b.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/9b/9b8ecb2f9a77b5e7573ef6fae2f4c2e771064f7a129ed1329913c1025c33f365/data
+```
+:::
+
+## Prepare index
+
+The data we will use for this part of the tutorial is paired end `RNA sedquencing data` and is already in your `/raw` directory (`TMEB419RNA_frag_R1.fastq, TMEB419RNA_frag_R2.fastq`).
+
+First, we need to generate the STAR index, and this time we will include gene annotations to enable the mapped reads to be associated with known genes and transcripts.
+
+Next we have to create the directory where we will store the STAR index for chromosome 1. Let's use the `/ref`directory for that:
+
+```{.bash}
+mkdir ref/STARCassava01Index
+```
+
+The indexing script for STAR will be the following:
+
+:::{.callout-tip}
+## Exercise
+
+Do you remember all the steps you need to do to run the script?
+:::
+
+::: {.callout-caution collapse="true"}
+## Expand to see the code for the pull - try yourself first
+Save the below in a file:
+
+```{.bash}
+star_index.sh
+```
+
+in the appropriate directory, and run with
+
+```{.bash}
+sbatch star_index.sh
+```
+
+from the appropriate directory.
+:::
+
+
+```{.bash}
+#! /bin/bash -l
+
+#SBATCH -A edu24.bk0001
+#SBATCH -t 05:00
+#SBATCH -n 1
+#SBATCH -p shared
+
+set -ueo pipefail
+
+module load PDC apptainer
+
+INDEX=ref/STARCassava01Index
+REFERENCE=ref/chromosome01.fasta
+GTF=ref/Mesculenta_671_v8.1.gene_exons.gtf
+
+singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/star_2.7.11b.sif \
+    STAR    --runMode genomeGenerate \
+        --genomeDir $INDEX \
+        --genomeFastaFiles $REFERENCE \
+        --sjdbGTFfile $GTF \
+        --genomeSAindexNbases 11 \
+        --genomeChrBinNbits 16 \
+        --outTmpDir ./star
+```
+
+With this you will end up with a bunch of index files:
+
+![](images/star_index_files.png)
+
+Files like `geneInfo.tab`, `exonGeTrInfo.tab`, `transcriptInfo.tab`, `exonInfo.tab`, `sjdbList.fromGTF.out.tab`, `sjdbList.out.tab`, `sjdbInfo.txt` contain the indexing information of the predicted genes, transcripts, exons and splicing sites annotated in the `Mesculenta_671_v8.1.gene_exons.gtf file`. Have a look around!
+
+:::{.callout-tip}
+## Exercise
+
+Have a look around the files to see what you discover!
+:::
+
+## Map with STAR
+
+Now we are ready to map the DNA sequencing files to the reference sequence.
+
+Make a directory for the output:
+
+```{.bash}
+mkdir star
+```
+
+And then save the following script and run it with sbatch (like above). 
+
+
+```{.bash}
+
+
+```
