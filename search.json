@@ -77,6 +77,34 @@
     "text": "Map with bowtie2\nNow that we have the index we create a directory for the bowtie2 results:\nmkdir bowtie2\nand then we can run the mapping:\nMake a file in the scripts folder bowtie2_mapping.sh.\n#! /bin/bash -l\n\n#SBATCH -A edu24.bk0001\n#SBATCH -t 15:00\n#SBATCH -n 4\n#SBATCH -p shared\n\nset -ueo pipefail\n\nmodule load PDC apptainer\n\n# Get CPUS allocated to slurm script (-n above)\nCPUS=$SLURM_NPROCS\n\nINDEX=ref/Bowtie2Cassava01Index\nR1=../raw/TMEB117_R1_frac.fastq\nR2=../raw/TMEB117_R2_frac.fastq\n\nsingularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/bowtie2_2.5.4.sif \\\n    bowtie2 --very-sensitive-local \\\n    --threads $CPUS \\\n    -x $INDEX \\\n    -S bowtie2/TMEB117.sam \\\n    -1 $R1 \\\n    -2 $R2 |& tee bowtie2/TMEB117.log\n\necho \"complete\"\nSave the script in the scripts directory and run the code.\nWe will get a mapping file in the SAM format and the log file with the mapping statistics.\n\nmapping/TMEB117.sam mapping/TMEB117.log\n\n\n\n\n\n\n\nExercise\n\n\n\nCheck the log and find how many unique hits of pairs we have.\n\n\nCheck the SAM file and check how many hits we have - use samtools to do so. Module load the tool, or get the appropriate container. Look into the samtools manual to figure out how to look at the file.\nNow you can play around a bit. You could see what influence the trimming might have on the mapping of these data. For that re-run the mapping with the trimmed data. Make sure you point towards the correct file paths!\nCheck the log and SAM file and see what difference we have.\nTime allowing, I propose to run a third test mapping either using the raw data of trimmed data by changing the mapping mode from local to end-to-end or from very-sensitive to fast, loosing some accuracy but reducing the mapping time.\nReplace in the commands above –very-sensitive-local to –very-sensitive or from –very-sensitive-local to –fast-local.\nAgain, compare the output with the previous ones."
   },
   {
+    "objectID": "NGS2.html#star",
+    "href": "NGS2.html#star",
+    "title": "",
+    "section": "STAR",
+    "text": "STAR\nSTAR is one such spicing site sensitive mapper for RNA sequencing data."
+  },
+  {
+    "objectID": "NGS2.html#apptainer-image-1",
+    "href": "NGS2.html#apptainer-image-1",
+    "title": "",
+    "section": "Apptainer image",
+    "text": "Apptainer image\nGo to seqera containers, and get the container image path for bioconda::star.\nPull the image into the same directory as the other container images.\n\n\n\n\n\n\nNote\n\n\n\nWhich one was that again?\n\n\n\n\n\n\n\n\nExpand to see the code for the pull - try yourself first\n\n\n\n\n\nsingularity pull --name star_2.7.11b.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/9b/9b8ecb2f9a77b5e7573ef6fae2f4c2e771064f7a129ed1329913c1025c33f365/data"
+  },
+  {
+    "objectID": "NGS2.html#prepare-index",
+    "href": "NGS2.html#prepare-index",
+    "title": "",
+    "section": "Prepare index",
+    "text": "Prepare index\nThe data we will use for this part of the tutorial is paired end RNA sedquencing data and is already in your /raw directory (TMEB419RNA_frag_R1.fastq, TMEB419RNA_frag_R2.fastq).\nFirst, we need to generate the STAR index, and this time we will include gene annotations to enable the mapped reads to be associated with known genes and transcripts.\nNext we have to create the directory where we will store the STAR index for chromosome 1. Let’s use the /refdirectory for that:\nmkdir ref/STARCassava01Index\nThe indexing script for STAR will be the following:\n\n\n\n\n\n\nExercise\n\n\n\nDo you remember all the steps you need to do to run the script?\n\n\n\n\n\n\n\n\nExpand to see the code for the pull - try yourself first\n\n\n\n\n\nSave the below in a file:\nstar_index.sh\nin the appropriate directory, and run with\nsbatch star_index.sh\nfrom the appropriate directory.\n\n\n\n#! /bin/bash -l\n\n#SBATCH -A edu24.bk0001\n#SBATCH -t 05:00\n#SBATCH -n 1\n#SBATCH -p shared\n\nset -ueo pipefail\n\nmodule load PDC apptainer\n\nINDEX=ref/STARCassava01Index\nREFERENCE=ref/chromosome01.fasta\nGTF=ref/Mesculenta_671_v8.1.gene_exons.gtf\n\nsingularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/star_2.7.11b.sif \\\n    STAR    --runMode genomeGenerate \\\n        --genomeDir $INDEX \\\n        --genomeFastaFiles $REFERENCE \\\n        --sjdbGTFfile $GTF \\\n        --genomeSAindexNbases 11 \\\n        --genomeChrBinNbits 16 \\\n        --outTmpDir ./star\nWith this you will end up with a bunch of index files:\n\nFiles like geneInfo.tab, exonGeTrInfo.tab, transcriptInfo.tab, exonInfo.tab, sjdbList.fromGTF.out.tab, sjdbList.out.tab, sjdbInfo.txt contain the indexing information of the predicted genes, transcripts, exons and splicing sites annotated in the Mesculenta_671_v8.1.gene_exons.gtf file. Have a look around!\n\n\n\n\n\n\nExercise\n\n\n\nHave a look around the files to see what you discover!"
+  },
+  {
+    "objectID": "NGS2.html#map-with-star",
+    "href": "NGS2.html#map-with-star",
+    "title": "",
+    "section": "Map with STAR",
+    "text": "Map with STAR\nNow we are ready to map the DNA sequencing files to the reference sequence.\nMake a directory for the output:\nmkdir star\nAnd then save the following script and run it with sbatch (like above)."
+  },
+  {
     "objectID": "NGS2.html#footnotes",
     "href": "NGS2.html#footnotes",
     "title": "",
