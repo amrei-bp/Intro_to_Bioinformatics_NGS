@@ -5047,14 +5047,14 @@ Note
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec singularity_images/multiqc_1.25.1.sif <span class="dt">\</span></span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    multiqc <span class="at">-f</span> <span class="at">-o</span> multiqc .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Navigate out of the scripts directory back into the qc directory.</p>
+<p>Navigate out of the scripts directory back into the NGS_course directory.</p>
 <p>Make a directory called multiqc.</p>
 <p>Run the bash script with</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> scripts/multiqc.sh </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The command output looks something like:</p>
 <blockquote class="blockquote">
 <p>/// MultiQC 🔍 v1.25.1</p>
-<p>config | Loading config settings from: multiqc_config.yaml file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc</p>
+<p>config | Loading config settings from: multiqc_config.yaml file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course</p>
 <p>fastqc | Found 4 reports</p>
 <p>write_results | Data : multiqc/multiqc_data (overwritten) write_results | Report : multiqc/multiqc_report.html (overwritten) multiqc | MultiQC complete</p>
 </blockquote>
@@ -5960,7 +5960,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-316"><a href="#cb29-316" aria-hidden="true" tabindex="-1"></a><span class="in">    multiqc -f -o multiqc .</span></span>
 <span id="cb29-317"><a href="#cb29-317" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-318"><a href="#cb29-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-319"><a href="#cb29-319" aria-hidden="true" tabindex="-1"></a>Navigate out of the scripts directory back into the qc directory. </span>
+<span id="cb29-319"><a href="#cb29-319" aria-hidden="true" tabindex="-1"></a>Navigate out of the scripts directory back into the NGS_course directory. </span>
 <span id="cb29-320"><a href="#cb29-320" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-321"><a href="#cb29-321" aria-hidden="true" tabindex="-1"></a>Make a directory called multiqc.</span>
 <span id="cb29-322"><a href="#cb29-322" aria-hidden="true" tabindex="-1"></a></span>
@@ -5976,7 +5976,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-332"><a href="#cb29-332" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; /// MultiQC 🔍 v1.25.1</span></span>
 <span id="cb29-333"><a href="#cb29-333" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
 <span id="cb29-334"><a href="#cb29-334" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; config | Loading config settings from: multiqc_config.yaml</span></span>
-<span id="cb29-335"><a href="#cb29-335" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc</span></span>
+<span id="cb29-335"><a href="#cb29-335" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course</span></span>
 <span id="cb29-336"><a href="#cb29-336" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
 <span id="cb29-337"><a href="#cb29-337" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; fastqc | Found 4 reports</span></span>
 <span id="cb29-338"><a href="#cb29-338" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
