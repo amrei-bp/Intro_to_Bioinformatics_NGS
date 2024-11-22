@@ -4847,7 +4847,7 @@ vertical-align: -.125em;
 <p>You can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">screen</span> <span class="at">-ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To <code>resume your screen session</code> use the following command:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">screen</span> name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">screen</span> <span class="at">-r</span> name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="change-into-pdc-scratch-space" class="level2">
 <h2 class="anchored" data-anchor-id="change-into-pdc-scratch-space">Change into PDC scratch space</h2>
@@ -4978,7 +4978,7 @@ Nano
 </ul>
 <p>Move back into the NGS_course directory and submit the script to slurm:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> fastqc.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> scripts/fastqc.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>After running a bash script you will get a slurm output. Look at that output. See if you understand what that output contains.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> slurm-XXXXX.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Locate the output of FastQC.</p>
@@ -5684,7 +5684,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>To <span class="in">`resume your screen session`</span> use the following command:</span>
 <span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a><span class="in">```{.bash}</span></span>
-<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a><span class="in">screen name</span></span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a><span class="in">screen -r name</span></span>
 <span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## Change into PDC scratch space</span></span>
@@ -5889,7 +5889,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-245"><a href="#cb29-245" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-246"><a href="#cb29-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{.bash}</span></span>
 <span id="cb29-247"><a href="#cb29-247" aria-hidden="true" tabindex="-1"></a><span class="in">cd ..</span></span>
-<span id="cb29-248"><a href="#cb29-248" aria-hidden="true" tabindex="-1"></a><span class="in">sbatch fastqc.sh</span></span>
+<span id="cb29-248"><a href="#cb29-248" aria-hidden="true" tabindex="-1"></a><span class="in">sbatch scripts/fastqc.sh</span></span>
 <span id="cb29-249"><a href="#cb29-249" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-250"><a href="#cb29-250" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-251"><a href="#cb29-251" aria-hidden="true" tabindex="-1"></a>After running a bash script you will get a slurm output. Look at that output. See if you understand what that output contains.</span>
