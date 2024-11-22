@@ -5003,7 +5003,7 @@ Note
 <p>TMEB117_R1_frac_fastq.html (report in html)</p>
 </blockquote>
 <p>Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-ah</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@dardel.pdc.kth.se:/cfs/klemming/scratch/<span class="op">&lt;</span>user_letter<span class="op">&gt;</span>/<span class="op">&lt;</span>user<span class="op">&gt;</span>/NGS_course/qc/fastqc .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-o</span> GSSAPIAuthentication=yes <span class="at">-ah</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@dardel.pdc.kth.se:/cfs/klemming/scratch/<span class="op">&lt;</span>user_letter<span class="op">&gt;</span>/<span class="op">&lt;</span>user<span class="op">&gt;</span>/NGS_course/qc/fastqc .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Let’s look at the files. Go through the reports to understand your sample.</p>
 <p>You see that it is getting kind of tedious to look through all the different files one by one. Okay with only a few files, but imagine having to sift through a few dozen, or even hundreds of reports.</p>
 </section>
@@ -5914,7 +5914,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-270"><a href="#cb29-270" aria-hidden="true" tabindex="-1"></a>Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command:</span>
 <span id="cb29-271"><a href="#cb29-271" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-272"><a href="#cb29-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{.bash}</span></span>
-<span id="cb29-273"><a href="#cb29-273" aria-hidden="true" tabindex="-1"></a><span class="in">rsync -ah &lt;user&gt;@dardel.pdc.kth.se:/cfs/klemming/scratch/&lt;user_letter&gt;/&lt;user&gt;/NGS_course/qc/fastqc .</span></span>
+<span id="cb29-273"><a href="#cb29-273" aria-hidden="true" tabindex="-1"></a><span class="in">rsync -o GSSAPIAuthentication=yes -ah &lt;user&gt;@dardel.pdc.kth.se:/cfs/klemming/scratch/&lt;user_letter&gt;/&lt;user&gt;/NGS_course/qc/fastqc .</span></span>
 <span id="cb29-274"><a href="#cb29-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-275"><a href="#cb29-275" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-276"><a href="#cb29-276" aria-hidden="true" tabindex="-1"></a></span>
