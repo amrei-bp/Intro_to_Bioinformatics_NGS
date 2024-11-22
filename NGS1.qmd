@@ -316,7 +316,7 @@ singularity exec singularity_images/multiqc_1.25.1.sif \
     multiqc -f -o multiqc .
 ```
 
-Navigate out of the scripts directory back into the qc directory. 
+Navigate out of the scripts directory back into the NGS_course directory. 
 
 Make a directory called multiqc.
 
@@ -332,7 +332,7 @@ The command output looks something like:
 > /// MultiQC 🔍 v1.25.1
 > 
 > config | Loading config settings from: multiqc_config.yaml
-> file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course/qc
+> file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course
 > 
 > fastqc | Found 4 reports
 > 
