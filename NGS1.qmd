@@ -13,7 +13,13 @@ For this tutorial we will connect to Dardel. For everyone connecting via Kerbero
 
 ```{.bash}
 ssh -o GSSAPIAuthentication=yes <PDC username>@dardel.pdc.kth.se
-````
+```
+
+For logging in via SSH keys, the command is the following: 
+
+```{.bash}
+ssh  <PDC_username>@dardel.pdc.kth.se
+```
 
 ## Start a screen session
 
@@ -267,11 +273,13 @@ For each fastq file you will get two output files:
 
 > TMEB117_R1_frac_fastq.html (report in html)
 
-Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command:
+Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command (for Kerberos users):
 
 ```{.bash}
 rsync -e "ssh -o  GSSAPIAuthentication=yes"  -ah <user>@dardel.pdc.kth.se:/cfs/klemming/scratch/<user_letter>/<user>/NGS_course/fastqc .
 ```
+
+SSH key users need to remove the `-e "ssh -o  GSSAPIAuthentication=yes" `part. 
 
 
 Let's look at the files. Go through the reports to understand your sample.
