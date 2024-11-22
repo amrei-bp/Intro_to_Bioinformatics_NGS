@@ -270,7 +270,7 @@ For each fastq file you will get two output files:
 Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command:
 
 ```{.bash}
-rsync -e "ssh -o  GSSAPIAuthentication=yes"  -ah <user>@dardel.pdc.kth.se:/cfs/klemming/scratch/<user_letter>/<user>/NGS_course/qc/fastqc .
+rsync -e "ssh -o  GSSAPIAuthentication=yes"  -ah <user>@dardel.pdc.kth.se:/cfs/klemming/scratch/<user_letter>/<user>/NGS_course/fastqc .
 ```
 
 
