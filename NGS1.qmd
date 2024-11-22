@@ -40,7 +40,7 @@ screen -ls
 To `resume your screen session` use the following command:
 
 ```{.bash}
-screen name
+screen -r name
 ```
 
 ## Change into PDC scratch space
@@ -245,7 +245,7 @@ Move back into the NGS_course directory and submit the script to slurm:
 
 ```{.bash}
 cd ..
-sbatch fastqc.sh
+sbatch scripts/fastqc.sh
 ```
 
 After running a bash script you will get a slurm output. Look at that output. See if you understand what that output contains.
