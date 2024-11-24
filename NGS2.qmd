@@ -5,9 +5,9 @@ Now that you have looked at the quality of the samples, let's do the next step o
 
 # Learning objectives
 
-- learn how to do mapping of sequences
-- try different tools for different types of data
-- use the command line more and more independently
+- map NGS sequences to a reference
+- use different tools for different types of data
+- train the command line more and more independently
 - navigate absolute and relative paths when using the command line
 - structure your project directories to be well organized
 
@@ -448,6 +448,12 @@ Is this a good mapping?
 # Next steps
 
 After quality control and mapping, a typical next step when working with NGS data would be to annotate the reads, so you get an idea of what you are looking at. You will do that later in this course. 
+
+:::{.callout-tip}
+## Exercise
+
+Look back at the NGS_course directory. What do you think, did you manage to keep the chaos at bay? What went well in keeping order and what could be improved? Discuss with your neighbour.
+:::
 
 For now, please do not forget to fill out the quick quizzes (one for the quality control exercise, one for the mapping exercise). Then you are done for the day. \(o:
 
