@@ -46,29 +46,17 @@ screen -ls
 To `resume your screen session` use the following command:
 
 ```{.bash}
-screen name
+screen -r name
 ```
+
+::: {.callout-tip}
+## Exercise
+
+Can you find the screen session that you started last friday? 
+:::
+
 
 ## Change into PDC scratch space
-
-On PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory  it will look something like this:
-
-```{.bash}
-pwd
-```
-
-> /cfs/klemming/home/\<user letter>/\<user name>
-
-You can always come back to your home directory by entering:
-
-```{.bash}
-cd
-```
-
-The home directories have a quota of 25 GB, so there is not much space in them.
-
-
-However, connected to our home directories, PDC has a `temporary disk space, called scratch`. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.
 
 To move into the scratch space, change into it:
 
@@ -83,6 +71,13 @@ pwd
 ```
 
 > /cfs/klemming/scratch/\<user letter>/\<user name>
+
+::: {.callout-tip}
+## Exercise
+
+Do you remember why we decided to work from scratch?
+:::
+
 
 
 # Read mapping
@@ -126,8 +121,6 @@ The reference data files are located in:
 /sw/courses/slu_bioinfo
 ```
 
-You could copy the files into your workspace to access them. However, it is better to create symbolic links (also called soft links) to the data files. This saves disk space and still allows you to work with them as if they were in your own directory.
-
 Create symbolic links to the fastq files in your workspace:
 
 ```{.bash}
@@ -135,6 +128,13 @@ ln -s /sw/courses/slu_bioinfo/chromosome01.fasta  .
 ln -s /sw/courses/slu_bioinfo/Mesculenta_671_v8.1.gene_exons.gtf .
 ln -s /sw/courses/slu_bioinfo/Mesculenta_671_v8.1.gene_exons.gff3 .
 ```
+
+::: {.callout-tip}
+## Exercise
+
+Do you remember why we decided to link to the files instead of copying them?
+:::
+
 
 Check that you can now see the linked files in the directory and move back into the directory "mapping".
 
@@ -153,9 +153,9 @@ Now we are all set to map our paired end DNA sequences onto the reference.
 
 ## Apptainer image
 
-Go to [seqera containers](https://seqera.io/containers/), and get the container image path for `bioconda::bowtie2`. 
+Go to [seqera containers](https://seqera.io/containers/), and get the container image path for `bioconda::bowtie2`. Remember to get the singularity container, not the one for docker. 
 
-Pull the image 
+Pull the image. 
 
 ::: {.callout-caution collapse="true"}
 ## Expand to see the code - try yourself first
@@ -259,13 +259,13 @@ Save the script in the scripts directory and run the code.
 
 We will get a mapping file in the SAM format and the log file with the mapping statistics.
 
-> mapping/TMEB117.sam
-> mapping/TMEB117.log
+> mapping/bowtie2/TMEB117.sam\
+> mapping/bowtie2/TMEB117.log
 
 ::: {.callout-tip}
 ## Exercise
 
-Check the log and find how many unique hits of pairs we have.
+Check the log and find how many unique hits of pairs we have. What does that even mean?
 :::
 
 Check the SAM file and check how many hits we have - use `samtools` to do so. Module load the tool, or get the appropriate container. Look into the `samtools manual` to figure out how to look at the file.
@@ -399,6 +399,55 @@ And then save the following script and run it with sbatch (like above).
 
 
 ```{.bash}
+#! /bin/bash -l
 
+#SBATCH -A edu24.bk0001
+#SBATCH -t 15:00
+#SBATCH -n 4
+#SBATCH -p shared
+
+set -ueo pipefail
+
+module load PDC apptainer
+
+# Get CPUS allocated to slurm script (-n above)
+CPUS=$SLURM_NPROCS
+
+INDEX=ref/STARCassava01Index
+READ1=../raw/TMEB419RNA_frag_R1.fastq
+READ2=../raw/TMEB419RNA_frag_R2.fastq
+
+singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/star_2.7.11b.sif \
+    STAR --genomeDir $INDEX \
+        --outFilterMismatchNoverLmax 0.06 \
+        --outFilterMatchNminOverLread 0.5 \
+        --outFilterScoreMinOverLread 0.2 \
+        --alignIntronMax 20000 \
+        --alignMatesGapMax 10000 \
+        --outFileNamePrefix star/TMEB419RNA_  \
+        --readFilesIn $READ1 $READ2
+
+echo "complete"
 
 ```
+
+Run with `sbatch`. 
+
+Your output will be the SAM file, report files and the list of predicted splicing sites.
+
+
+
+:::{.callout-tip}
+## Exercise
+
+Inspect the report file and check the mapped reads and the average mapped length.
+
+Is this a good mapping?
+:::
+
+# Next steps
+
+After quality control and mapping, a typical next step when working with NGS data would be to annotate the reads, so you get an idea of what you are looking at. You will do that later in this course. 
+
+For now, please do not forget to fill out the quick quizzes (one for the quality control exercise, one for the mapping exercise). Then you are done for the day. \(o:
+
