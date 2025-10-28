@@ -13,7 +13,8 @@ We will run parts of this course on a High Performance Computing cluster, HPC2N.
 
 ::: {.callout-important}
 ## To do for you
-Fill out & submit the [account request form](https://supr.naiss.se/person/register/).
+Fill out & submit the [account request form](https://supr.naiss.se/person/register/). **Open this and all the following links in a different tab, they do NOT properly open in Canas. **
+
 Read carefully and follow the provided instructions.
 :::
 
