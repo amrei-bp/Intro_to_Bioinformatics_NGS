@@ -5,6 +5,8 @@ website:
   title: "Introduction to Bioinformatics NGS"
   navbar:
     left:
+      - href: server_access.qmd
+        text: server accounts
       - href: index.qmd
         text: Data
       - href: NGS1.qmd
@@ -18,7 +20,7 @@ format:
     code-fold: true
     code-summary: "Click here to show the code"
     code-tools: true
-    theme: united
+    theme: flatly
     self-contained: true
     page-layout: full
     toc: true
