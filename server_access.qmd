@@ -1,0 +1,73 @@
+---
+title: Create user accounts for the course server
+authors:
+  - name: Amrei Binzer-Panchal
+---
+
+<br>
+The following procedure takes a few days to get through because of clearance delays, so please start straight away, since every thing else in the course depends on it :)
+
+We will run parts of this course on a High Performance Computing cluster, HPC2N. The cluster is a local resource in Umeå, and to use it you need a user account both at the National Academic Infrastructure for Super­computing in Sweden (NAISS), and at HPC2N. 
+
+## Create a user account at SUPR/NAISS
+
+::: {.callout-important}
+## To do for you
+Fill out & submit the [account request form](https://supr.naiss.se/person/register/).
+Read carefully and follow the provided instructions.
+:::
+
+::: {.callout-tip}
+- Use "Register with Federated Identity" if you are enrolled in a Swedish university.
+- If you are not enrolled in a Swedish university or if the previous option doesn't work for you, use instead "Register without Federated Identity".
+:::
+
+### Accept NAISS user agreement
+
+Just after creating the SUPR account, on the page you are taken to, there will be a section titled “User Agreement” at the very top. Just under it is the button named “Accept NAISS User Agreement”. 
+
+::: {.callout-important}
+## To do for you
+Click it.
+:::
+
+Alternately, if you do this at a later point. Login to SUPR. At the very top it will say “NAISS User Agreement Pending”.
+
+::: {.callout-tip}
+- Use `With SWAMID` if you are enrolled in a Swedish university - **this option is much faster!**
+- If you are not enrolled in a Swedish university use instead `Alternative: Offline via Paper Form`. Here you will have to print out, sign and send in the form. **This may take up to a week. **
+:::
+
+When you have a SUPR account you can join our course project on HPC2N:
+
+## Join the course project at HPC2N
+
+::: {.callout-important}
+## To do for you
+Log in to [SUPR](https://supr.naiss.se/). 
+
+- Click “Projects” in the left side column.
+- Under “Requesting Membership in Projects”, put in `hpc2n2025-237`, the identification of the project you wish to join. Click “Search for Project”.
+- Click “Request” on the project.
+- We will then get an e-mail notification about your request. Once we have accepted your membership, you in turn will get an e-mail, telling you that the membership has been accepted. Then, go to SUPR again to apply for an account at HPC2N.
+:::
+
+
+## Create a user account at HPC2N
+
+Note: you **must be a member** of a project before you do this!
+
+
+::: {.callout-important}
+## To do for you
+- Login to SUPR.
+- Click “Accounts” in the left side column.
+- You can request an account at HPC2N now. Look under the heading “Account Requests”.
+- Click “Request account”.
+- Your information will then be sent to HPC2N, and you will be taken back to a webpage where you can choose your username.
+- User accounts are usually created once a week. You will get an email from HPC2N when your account has been created.
+:::
+
+## Questions?
+
+Contact me via canvas!
