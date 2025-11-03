@@ -77,5 +77,67 @@ Read [here](https://docs.hpc2n.umu.se/tutorials/clusterguide/#beginners__intro__
 
 This location is the home folder of your account. 
 
-Open up the terminal in VScode (View -> Terminal), 
-and you are ready for the next chapter, learning (or repeating) the basics of the command line. 
+::: {.callout-tip}
+You can check the path to your working directory with: 
+
+```{.bash}
+pwd
+````
+
+and the content with: 
+
+```{.bash}
+ls
+```
+:::
+
+
+## Server access: on demand
+
+HPC2N offers a on demand log-in, where you can start a visual interface to interact with the server. 
+
+You can access the on-demand log-in [here](https://portal.hpc2n.umu.se/public/landing_page.html). 
+
+::: {.callout-important}
+## To do for you
+
+- Click on "Login to HPC2N OnDemand".
+- Sign in to your account with your HPC2N user name and password. 
+- On the top, select "Interactive Apps" and "VScode". 
+:::
+
+Now you can set up the interactive session.
+
+::: {.callout-important}
+## To do for you
+
+- Select our compute project in the drop-down menu under "Compute Project".
+- Select the appropriate number of hours. 
+- Type in the path to the course directory in "Working Directory":
+```{.bash}
+/proj/nobackup/hpc2nstor2025-XXX
+```
+- Click Launch.  
+:::
+
+Your session will start, once it is running you can click the blue "Connect to VS Code" button in the bottom. The VS Code interface will open up in your browser. 
+
+::: {.callout-important}
+## To do for you
+
+- Look around the storage project: 
+```{.bash}
+ls
+```
+
+- Create a directory with your name (replace `<your-name>` below with your actual name): 
+```{.bash}
+mkdir <your-name>
+```
+
+- Check that the directory was created successfully: 
+```{.bash}
+ls
+```
+
+:::
