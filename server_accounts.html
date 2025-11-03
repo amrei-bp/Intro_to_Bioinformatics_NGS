@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Connect to the course server – Introduction to Bioinformatics NGS</title>
+<title>Create user accounts for the course server – Introduction to Bioinformatics NGS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3887,11 +3887,11 @@ vertical-align: -.125em;
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./server_accounts.html"> 
+    <a class="nav-link active" href="./server_accounts.html" aria-current="page"> 
 <span class="menu-text">Server Accounts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./server_access.html" aria-current="page"> 
+    <a class="nav-link" href="./server_access.html"> 
 <span class="menu-text">Server Access</span></a>
   </li>  
   <li class="nav-item">
@@ -3922,7 +3922,13 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#access-server-via-the-terminal" id="toc-access-server-via-the-terminal" class="nav-link active" data-scroll-target="#access-server-via-the-terminal">Access server via the Terminal</a></li>
+  <li><a href="#create-a-user-account-at-suprnaiss" id="toc-create-a-user-account-at-suprnaiss" class="nav-link active" data-scroll-target="#create-a-user-account-at-suprnaiss">Create a user account at SUPR/NAISS</a>
+  <ul>
+  <li><a href="#accept-naiss-user-agreement" id="toc-accept-naiss-user-agreement" class="nav-link" data-scroll-target="#accept-naiss-user-agreement">Accept NAISS user agreement</a></li>
+  </ul></li>
+  <li><a href="#join-the-course-project-at-hpc2n" id="toc-join-the-course-project-at-hpc2n" class="nav-link" data-scroll-target="#join-the-course-project-at-hpc2n">Join the course project at HPC2N</a></li>
+  <li><a href="#create-a-user-account-at-hpc2n" id="toc-create-a-user-account-at-hpc2n" class="nav-link" data-scroll-target="#create-a-user-account-at-hpc2n">Create a user account at HPC2N</a></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions?</a></li>
   </ul>
 </nav>
     </div>
@@ -3931,7 +3937,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Connect to the course server</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Create user accounts for the course server</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -3954,82 +3960,10 @@ vertical-align: -.125em;
 </header>
 
 
-<p><br> For this course, we will be working on a remote server, HPC2N. You should already have applied for a user account there. If you haven’t, <a href="./server_accounts.html">do it now</a>.</p>
-<p>Here, you will access the server for the first time.</p>
-<p><strong>You will need:</strong></p>
-<ul>
-<li><strong>a terminal,</strong></li>
-<li><strong>your HPC2N user name and</strong></li>
-<li><strong>the temporary password you will have gotten from HPC2N.</strong></li>
-</ul>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If you have forgotten your password, or it’s no longer valid, you can re-set it using the <a href="https://docs.hpc2n.umu.se/documentation/password/">Password reset service</a>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>IF NEEDED: Get a working Linux terminal on Windows
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For the sake of simplicity we will teach you the way to use tools on Linux subsystems only. Hence, <strong>if you have a Windows PC or laptop</strong> you need to set up a way to access a Linux terminal. You can find plenty of <a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/#:~:text=Assuming%20you%20have%2064%2Dbit,t%20work%20until%20you%20reboot.">tutorials</a> online to do this, but here are some steps that should be easy enough to follow:</p>
-<ul>
-<li>type in the bottom left search bar “powershell”, right-click on the result and select “run as administrator”</li>
-<li>copy-paste in the window you opened the following command:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--install</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>reboot your system</li>
-<li>open the Microsoft store and search for Ubuntu</li>
-<li>install Ubuntu 22.04.3 LTS</li>
-<li>launch it, set a username and a password</li>
-</ul>
-</div>
-</div>
-<section id="access-server-via-the-terminal" class="level2">
-<h2 class="anchored" data-anchor-id="access-server-via-the-terminal">Access server via the Terminal</h2>
-<ul>
-<li>Open the Terminal on your computer.</li>
-<li>Type <code>ssh username@kebnekaise.hpc2n.umu.se</code>, where you substitute “username” with your HPC2N user name.</li>
-<li>type in your temporary password.</li>
-</ul>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>After the first log-in: reset password
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In the welcome mail you got when your HPC2N account was created there was a link to create a first, temporary password. When you have logged in using that, you need to change your password.</p>
-<p>From the <a href="https://docs.hpc2n.umu.se/documentation/access/#first__time__login__password__change">HPC2N documentation</a>:</p>
-<p>This is done using the passwd command:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">passwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Use a good password that combines letters of different case. Do not use dictionary words. Avoid using the same password that you also use in other places.</p>
-<ul>
-<li>It will first ask for your current password. The first time you login, that will be the temporary password you created with the HPC2N password reset service.</li>
-<li>Type in that and press enter.</li>
-<li>Then type in the new password you want, enter, and repeat.</li>
-<li>You have changed the password.</li>
-</ul>
-</div>
-</div>
-<p>You are now on connected to the login node of the cluster.</p>
+<p><br> The following procedure takes a few days to get through because of clearance delays, so please start straight away, since every thing else in the course depends on it :)</p>
+<p>We will run parts of this course on a High Performance Computing cluster, HPC2N. The cluster is a local resource in Umeå, and to use it you need a user account both at the National Academic Infrastructure for Super­computing in Sweden (NAISS), and at HPC2N.</p>
+<section id="create-a-user-account-at-suprnaiss" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-user-account-at-suprnaiss">Create a user account at SUPR/NAISS</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4040,11 +3974,111 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Read <a href="https://docs.hpc2n.umu.se/tutorials/clusterguide/#beginners__intro__to__clusters">here</a> more about HPC cluster architecture. Read until the header <code>MPI</code>.</p>
+<p>Fill out &amp; submit the <a href="https://supr.naiss.se/person/register/">account request form</a>. <strong>Open this and all the following links in a different tab, they do NOT properly open in Canvas. </strong></p>
+<p>Read carefully and follow the provided instructions.</p>
 </div>
 </div>
-<p>This location is the home folder of your account.</p>
-<p>Open up the terminal in VScode (View -&gt; Terminal), and you are ready for the next chapter, learning (or repeating) the basics of the command line.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Use “Register with Federated Identity” if you are enrolled in a Swedish university.</li>
+<li>If you are not enrolled in a Swedish university or if the previous option doesn’t work for you, use instead “Register without Federated Identity”.</li>
+</ul>
+</div>
+</div>
+<section id="accept-naiss-user-agreement" class="level3">
+<h3 class="anchored" data-anchor-id="accept-naiss-user-agreement">Accept NAISS user agreement</h3>
+<p>Just after creating the SUPR account, on the page you are taken to, there will be a section titled “User Agreement” at the very top. Just under it is the button named “Accept NAISS User Agreement”.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>To do for you
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Click it.</p>
+</div>
+</div>
+<p>Alternately, if you do this at a later point. Login to SUPR. At the very top it will say “NAISS User Agreement Pending”.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Use <code>With SWAMID</code> if you are enrolled in a Swedish university - <strong>this option is much faster!</strong></li>
+<li>If you are not enrolled in a Swedish university use instead <code>Alternative: Offline via Paper Form</code>. Here you will have to print out, sign and send in the form. <strong>This may take up to a week. </strong></li>
+</ul>
+</div>
+</div>
+<p>When you have a SUPR account you can join our course project on HPC2N:</p>
+</section>
+</section>
+<section id="join-the-course-project-at-hpc2n" class="level2">
+<h2 class="anchored" data-anchor-id="join-the-course-project-at-hpc2n">Join the course project at HPC2N</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>To do for you
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Log in to <a href="https://supr.naiss.se/">SUPR</a>.</p>
+<ul>
+<li>Click “Projects” in the left side column.</li>
+<li>Under “Requesting Membership in Projects”, put in <code>hpc2n2025-237</code>, the identification of the project you wish to join. Click “Search for Project”.</li>
+<li>Click “Request” on the project.</li>
+<li>We will then get an e-mail notification about your request. Once we have accepted your membership, you in turn will get an e-mail, telling you that the membership has been accepted. Then, go to SUPR again to apply for an account at HPC2N.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="create-a-user-account-at-hpc2n" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-user-account-at-hpc2n">Create a user account at HPC2N</h2>
+<p>Note: you <strong>must be a member</strong> of a project before you do this!</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>To do for you
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Login to SUPR.</li>
+<li>Click “Accounts” in the left side column.</li>
+<li>You can request an account at HPC2N now. Look under the heading “Account Requests”.</li>
+<li>Click “Request account”.</li>
+<li>Your information will then be sent to HPC2N, and you will be taken back to a webpage where you can choose your username.</li>
+<li>User accounts are usually created once a week. You will get an email from HPC2N when your account has been created.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="questions" class="level2">
+<h2 class="anchored" data-anchor-id="questions">Questions?</h2>
+<p>Contact me via canvas!</p>
 
 
 <!-- -->
@@ -4503,87 +4537,80 @@ Important
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Connect to the course server</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">authors:</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Amrei Binzer-Panchal</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>For this course, we will be working on a remote server, HPC2N. You should already have applied for a user account there. If you haven&#39;t, <span class="co">[</span><span class="ot">do it now</span><span class="co">](server_accounts.qmd)</span>.</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>Here, you will access the server for the first time. </span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>**You will need:**</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**a terminal,**</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**your HPC2N user name and** </span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**the temporary password you will have gotten from HPC2N.**</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>If you have forgotten your password, or it&#39;s no longer valid, you can re-set it using the <span class="co">[</span><span class="ot">Password reset service</span><span class="co">](https://docs.hpc2n.umu.se/documentation/password/)</span>. </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## IF NEEDED: Get a working Linux terminal on Windows </span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>For the sake of simplicity we will teach you the way to use tools on Linux subsystems only. Hence, **if you have a Windows PC or laptop** you need to set up a way to access a Linux terminal. You can find plenty of <span class="co">[</span><span class="ot">tutorials</span><span class="co">](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/#:~:text=Assuming%20you%20have%2064%2Dbit,t%20work%20until%20you%20reboot.)</span> online to do this, but here are some steps that should be easy enough to follow:</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>type in the bottom left search bar &quot;powershell&quot;, right-click on the result and select &quot;run as administrator&quot;</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>copy-paste in the window you opened the following command:</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="in">```{.bash}</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--install</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>reboot your system</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>open the Microsoft store and search for Ubuntu</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>install Ubuntu 22.04.3 LTS</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>launch it, set a username and a password</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Access server via the Terminal</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Open the Terminal on your computer.</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type <span class="in">`ssh username@kebnekaise.hpc2n.umu.se`</span>, where you substitute &quot;username&quot; with your HPC2N user name. </span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>type in your temporary password.</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## After the first log-in: reset password</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>In the welcome mail you got when your HPC2N account was created there was a link to create a first, temporary password. When you have logged in using that, you need to change your password.</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>From the <span class="co">[</span><span class="ot">HPC2N documentation</span><span class="co">](https://docs.hpc2n.umu.se/documentation/access/#first__time__login__password__change)</span>: </span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>This is done using the passwd command:</span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="in">```{.bash}</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="fu">passwd</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>Use a good password that combines letters of different case. Do not use dictionary words. Avoid using the same password that you also use in other places.</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It will first ask for your current password. The first time you login, that will be the temporary password you created with the HPC2N password reset service.</span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type in that and press enter.</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Then type in the new password you want, enter, and repeat.</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You have changed the password.</span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>You are now on connected to the login node of the cluster. </span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## To do for you</span></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>Read <span class="co">[</span><span class="ot">here</span><span class="co">](https://docs.hpc2n.umu.se/tutorials/clusterguide/#beginners__intro__to__clusters)</span> more about HPC cluster architecture. Read until the header <span class="in">`MPI`</span>. </span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>This location is the home folder of your account. </span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>Open up the terminal in VScode (View -&gt; Terminal), </span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>and you are ready for the next chapter, learning (or repeating) the basics of the command line. </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Create user accounts for the course server</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">authors:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Amrei Binzer-Panchal</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>The following procedure takes a few days to get through because of clearance delays, so please start straight away, since every thing else in the course depends on it :)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>We will run parts of this course on a High Performance Computing cluster, HPC2N. The cluster is a local resource in Umeå, and to use it you need a user account both at the National Academic Infrastructure for Super­computing in Sweden (NAISS), and at HPC2N. </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Create a user account at SUPR/NAISS</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## To do for you</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Fill out &amp; submit the <span class="co">[</span><span class="ot">account request form</span><span class="co">](https://supr.naiss.se/person/register/)</span>. **Open this and all the following links in a different tab, they do NOT properly open in Canvas. **</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Read carefully and follow the provided instructions.</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use &quot;Register with Federated Identity&quot; if you are enrolled in a Swedish university.</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you are not enrolled in a Swedish university or if the previous option doesn&#39;t work for you, use instead &quot;Register without Federated Identity&quot;.</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">### Accept NAISS user agreement</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>Just after creating the SUPR account, on the page you are taken to, there will be a section titled “User Agreement” at the very top. Just under it is the button named “Accept NAISS User Agreement”. </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## To do for you</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Click it.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>Alternately, if you do this at a later point. Login to SUPR. At the very top it will say “NAISS User Agreement Pending”.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use <span class="in">`With SWAMID`</span> if you are enrolled in a Swedish university - **this option is much faster!**</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you are not enrolled in a Swedish university use instead <span class="in">`Alternative: Offline via Paper Form`</span>. Here you will have to print out, sign and send in the form. **This may take up to a week. **</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>When you have a SUPR account you can join our course project on HPC2N:</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Join the course project at HPC2N</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## To do for you</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>Log in to <span class="co">[</span><span class="ot">SUPR</span><span class="co">](https://supr.naiss.se/)</span>. </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Click “Projects” in the left side column.</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Under “Requesting Membership in Projects”, put in <span class="in">`hpc2n2025-237`</span>, the identification of the project you wish to join. Click “Search for Project”.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Click “Request” on the project.</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We will then get an e-mail notification about your request. Once we have accepted your membership, you in turn will get an e-mail, telling you that the membership has been accepted. Then, go to SUPR again to apply for an account at HPC2N.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Create a user account at HPC2N</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>Note: you **must be a member** of a project before you do this!</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## To do for you</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Login to SUPR.</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Click “Accounts” in the left side column.</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You can request an account at HPC2N now. Look under the heading “Account Requests”.</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Click “Request account”.</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Your information will then be sent to HPC2N, and you will be taken back to a webpage where you can choose your username.</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>User accounts are usually created once a week. You will get an email from HPC2N when your account has been created.</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">## Questions?</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>Contact me via canvas!</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

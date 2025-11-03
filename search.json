@@ -1,5 +1,131 @@
 [
   {
+    "objectID": "server_accounts.html",
+    "href": "server_accounts.html",
+    "title": "Create user accounts for the course server",
+    "section": "",
+    "text": "The following procedure takes a few days to get through because of clearance delays, so please start straight away, since every thing else in the course depends on it :)\nWe will run parts of this course on a High Performance Computing cluster, HPC2N. The cluster is a local resource in Umeå, and to use it you need a user account both at the National Academic Infrastructure for Super­computing in Sweden (NAISS), and at HPC2N."
+  },
+  {
+    "objectID": "server_accounts.html#create-a-user-account-at-suprnaiss",
+    "href": "server_accounts.html#create-a-user-account-at-suprnaiss",
+    "title": "Create user accounts for the course server",
+    "section": "Create a user account at SUPR/NAISS",
+    "text": "Create a user account at SUPR/NAISS\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nFill out & submit the account request form. Open this and all the following links in a different tab, they do NOT properly open in Canvas. \nRead carefully and follow the provided instructions.\n\n\n\n\n\n\n\n\nTip\n\n\n\n\nUse “Register with Federated Identity” if you are enrolled in a Swedish university.\nIf you are not enrolled in a Swedish university or if the previous option doesn’t work for you, use instead “Register without Federated Identity”.\n\n\n\n\nAccept NAISS user agreement\nJust after creating the SUPR account, on the page you are taken to, there will be a section titled “User Agreement” at the very top. Just under it is the button named “Accept NAISS User Agreement”.\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nClick it.\n\n\nAlternately, if you do this at a later point. Login to SUPR. At the very top it will say “NAISS User Agreement Pending”.\n\n\n\n\n\n\nTip\n\n\n\n\nUse With SWAMID if you are enrolled in a Swedish university - this option is much faster!\nIf you are not enrolled in a Swedish university use instead Alternative: Offline via Paper Form. Here you will have to print out, sign and send in the form. This may take up to a week. \n\n\n\nWhen you have a SUPR account you can join our course project on HPC2N:"
+  },
+  {
+    "objectID": "server_accounts.html#join-the-course-project-at-hpc2n",
+    "href": "server_accounts.html#join-the-course-project-at-hpc2n",
+    "title": "Create user accounts for the course server",
+    "section": "Join the course project at HPC2N",
+    "text": "Join the course project at HPC2N\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nLog in to SUPR.\n\nClick “Projects” in the left side column.\nUnder “Requesting Membership in Projects”, put in hpc2n2025-237, the identification of the project you wish to join. Click “Search for Project”.\nClick “Request” on the project.\nWe will then get an e-mail notification about your request. Once we have accepted your membership, you in turn will get an e-mail, telling you that the membership has been accepted. Then, go to SUPR again to apply for an account at HPC2N."
+  },
+  {
+    "objectID": "server_accounts.html#create-a-user-account-at-hpc2n",
+    "href": "server_accounts.html#create-a-user-account-at-hpc2n",
+    "title": "Create user accounts for the course server",
+    "section": "Create a user account at HPC2N",
+    "text": "Create a user account at HPC2N\nNote: you must be a member of a project before you do this!\n\n\n\n\n\n\nImportantTo do for you\n\n\n\n\nLogin to SUPR.\nClick “Accounts” in the left side column.\nYou can request an account at HPC2N now. Look under the heading “Account Requests”.\nClick “Request account”.\nYour information will then be sent to HPC2N, and you will be taken back to a webpage where you can choose your username.\nUser accounts are usually created once a week. You will get an email from HPC2N when your account has been created."
+  },
+  {
+    "objectID": "server_accounts.html#questions",
+    "href": "server_accounts.html#questions",
+    "title": "Create user accounts for the course server",
+    "section": "Questions?",
+    "text": "Questions?\nContact me via canvas!"
+  },
+  {
+    "objectID": "NGS1.html",
+    "href": "NGS1.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "NGS1.html#connect-to-dardel",
+    "href": "NGS1.html#connect-to-dardel",
+    "title": "",
+    "section": "Connect to Dardel",
+    "text": "Connect to Dardel\nFor this tutorial we will connect to Dardel. For everyone connecting via Kerberos this is the command:\nssh -o GSSAPIAuthentication=yes &lt;PDC username&gt;@dardel.pdc.kth.se\nFor logging in via SSH keys, the command is the following:\nssh  &lt;PDC_username&gt;@dardel.pdc.kth.se"
+  },
+  {
+    "objectID": "NGS1.html#start-a-screen-session",
+    "href": "NGS1.html#start-a-screen-session",
+    "title": "",
+    "section": "Start a screen session",
+    "text": "Start a screen session\nScreen or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.\nStart a named session\nscreen -S qc\nYou can detach from the screen session. The process within the screen will continue to run.\nCtrl + a d\nYou can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:\nscreen -ls\nTo resume your screen session use the following command:\nscreen -r name"
+  },
+  {
+    "objectID": "NGS1.html#change-into-pdc-scratch-space",
+    "href": "NGS1.html#change-into-pdc-scratch-space",
+    "title": "",
+    "section": "Change into PDC scratch space",
+    "text": "Change into PDC scratch space\nOn PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory it will look something like this:\npwd\n\n/cfs/klemming/home/&lt;user letter&gt;/&lt;user name&gt;\n\nYou can always come back to your home directory by entering:\ncd\nThe home directories have a quota of 25 GB, so there is not much space in them.\nHowever, connected to our home directories, PDC has a temporary disk space, called scratch. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.\nTo move into the scratch space, change into it:\ncd $PDC_TMP\nYou can check that you are in it by printing your working directory:\npwd\n\n/cfs/klemming/scratch/&lt;user letter&gt;/&lt;user name&gt;"
+  },
+  {
+    "objectID": "NGS1.html#create-a-directory-to-work-in",
+    "href": "NGS1.html#create-a-directory-to-work-in",
+    "title": "",
+    "section": "Create a directory to work in",
+    "text": "Create a directory to work in\nStart by creating a workspace for the raw data used in this exercise in your scratch space, and then move into it:\nmkdir -p  NGS_course/raw\ncd NGS_course/raw"
+  },
+  {
+    "objectID": "NGS1.html#create-symbolic-link-to-the-data",
+    "href": "NGS1.html#create-symbolic-link-to-the-data",
+    "title": "",
+    "section": "Create symbolic link to the data",
+    "text": "Create symbolic link to the data\nThe raw data files are located in:\n/sw/courses/slu_bioinfo\nYou could copy the files into your workspace to access them. However, it is better to create symbolic links (also called soft links) to the data files. This saves disk space and still allows you to work with them as if they were in your own directory.\nCreate symbolic links to the fastq files in your workspace:\nln -s /sw/courses/slu_bioinfo/*.fastq .\nYou now have four files in your directory: two for the TMEB117 cultivar containing the DNA sequences, and two for the TMEB419 cultivar, containing the RNA sequencing results."
+  },
+  {
+    "objectID": "NGS1.html#apptainer",
+    "href": "NGS1.html#apptainer",
+    "title": "",
+    "section": "Apptainer",
+    "text": "Apptainer\nThere are several ways to manage bioinformatics tools, such as using Conda, container platforms, or the module system, which you might have encountered in a previous course.\nIn this tutorial, we will focus on Apptainer — the open-source version of Singularity. By using Apptainer, we are flexible in running tools and specific tool versions that may not be directly installed on the system we are working on. All we need for this is a system where Apptainer is installed. Luckily for us, Dardel is one such system.\nLoad the module with\nmodule load PDC apptainer\nMake a directory for the output of the tool:\ncd .. \nmkdir fastqc\nCheck the directory you are in:\npwd \nYou should be located in\n\n/NGS_course"
+  },
+  {
+    "objectID": "NGS1.html#getting-apptainer-image",
+    "href": "NGS1.html#getting-apptainer-image",
+    "title": "",
+    "section": "Getting apptainer image",
+    "text": "Getting apptainer image\nOne good place to get quality controlled Apptainer/Singularity containers that contain the tools we want to use is seqera containers.\ngo to their homepage\nin the searchbar, type in the tool you want - fastqc\n\n\nAdd the tool you want to have in your container (in this case fastqc from Bioconda).\nIn the container settings underneath the search bar, select Singularity and linux/amd64\nClick “get container”\n\n\nOnce the container is ready select HTTPS and copy the name of the image."
+  },
+  {
+    "objectID": "NGS1.html#download-container-images",
+    "href": "NGS1.html#download-container-images",
+    "title": "",
+    "section": "Download container images",
+    "text": "Download container images\nTo have a nice and clean project directory we will make a new sub-directory that will contain all the singularity images we will use during this tutorial.\nmkdir singularity_images\ncd singularity_images\nNow we can pull the container image from its location into our folder:\nsingularity pull --name fastqc_0.12.1.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/e0/e0c976cb2eca5fee72618a581537a4f8ea42fcae24c9b201e2e0f764fd28648a/data\nThen we move out of the directory again:\ncd .."
+  },
+  {
+    "objectID": "NGS1.html#running-fastqc-with-sbatch",
+    "href": "NGS1.html#running-fastqc-with-sbatch",
+    "title": "",
+    "section": "Running fastqc with sbatch",
+    "text": "Running fastqc with sbatch\nDardel is using slurm as its jobmanager (as you have heard earlier today). We will now use slurm’s command sbatch to run fastqc with the container image.\nAgain, we want to maintain a clean and orderly project directory:\nIn your NGS_course folder, create a new directory called scripts, within this directory create a file called fastqc.sh.\nmkdir scripts\ncd scripts\nmodule load nano/7.2\nnano fastqc.sh\n\n\n\n\n\n\nTipNano\n\n\n\nNano is a Linux command line text editor. Commands are prefixed with ^or M characters. The caret symbol ^ represents the Ctrl key. For example, the ^X commands mean to press the Ctrl and X keys at the same time. The letter M represents the Alt key.\nMore information here.\n\n\nCopy the following into the file, and save the contents. Read through the file and try to understand what the different lines are doing.\n#! /bin/bash -l\n\n#SBATCH -A edu24.bk0001\n#SBATCH -t 15:00\n#SBATCH -n 4\n#SBATCH -p shared\n\nmodule load PDC apptainer\n\n# Get CPUS allocated to slurm script (-n above)\nCPUS=$SLURM_NPROCS\n\nsingularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastqc_0.12.1.sif \\\n    fastqc -t $CPUS -o fastqc/ raw/*.fastq\n    echo \"complete\"\nThe slurm options used here:\n\nA: project ID\nt allocated time dd-hh:mm:ss\nn number of cpus\np partition to use - here we will use the shared partition\n\nMove back into the NGS_course directory and submit the script to slurm:\ncd ..\nsbatch scripts/fastqc.sh\nAfter running a bash script you will get a slurm output. Look at that output. See if you understand what that output contains.\nless slurm-XXXXX.out\nLocate the output of FastQC.\n\n\n\n\n\n\nNote\n\n\n\nWhich output directory did you specify in the batch file?\n\n\nFor each fastq file you will get two output files:\n\nTMEB117_R1_frac_fastq.zip (report, data files and graphs)\n\n\nTMEB117_R1_frac_fastq.html (report in html)\n\nLet’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command (for Kerberos users):\nrsync -e \"ssh -o  GSSAPIAuthentication=yes\"  -ah &lt;user&gt;@dardel.pdc.kth.se:/cfs/klemming/scratch/&lt;user_letter&gt;/&lt;user&gt;/NGS_course/fastqc .\nSSH key users need to remove the -e \"ssh -o  GSSAPIAuthentication=yes\"part.\nLet’s look at the files. Go through the reports to understand your sample.\nYou see that it is getting kind of tedious to look through all the different files one by one. Okay with only a few files, but imagine having to sift through a few dozen, or even hundreds of reports."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "Code\n\n\n\n\n\n\nThe data\nThe data we will be working on today are DNA sequencing data and RNA sequencing data from cassava cultivars.\nThe paired end DNA sequences were retreived from the cassava cultivar called TMEB117, a strain that whose genome is now known and that, due to its susceptibility to certain cassava diseases, can be used as a reference for studying virus resistance mechanisms in cassava.\nThe paired end RNA sequencing data comes from a cassava genotype called TMEB419. This cultivar was bred to be highly resistant to various cassava viruses and is used commercially.\nSpecial thanks to Andreas Gisel for providing these samples (and the picture above)!\n\n\nData location\nThe data is located on the server in the directory /sw/courses/slu_bioinfo."
+  },
+  {
+    "objectID": "server_access.html",
+    "href": "server_access.html",
+    "title": "Connect to the course server",
+    "section": "",
+    "text": "For this course, we will be working on a remote server, HPC2N. You should already have applied for a user account there. If you haven’t, do it now.\nHere, you will access the server for the first time.\nYou will need:"
+  },
+  {
+    "objectID": "server_access.html#access-server-via-the-terminal",
+    "href": "server_access.html#access-server-via-the-terminal",
+    "title": "Connect to the course server",
+    "section": "Access server via the Terminal",
+    "text": "Access server via the Terminal\n\nOpen the Terminal on your computer.\nType ssh username@kebnekaise.hpc2n.umu.se, where you substitute “username” with your HPC2N user name.\ntype in your temporary password.\n\n\n\n\n\n\n\nCautionAfter the first log-in: reset password\n\n\n\nIn the welcome mail you got when your HPC2N account was created there was a link to create a first, temporary password. When you have logged in using that, you need to change your password.\nFrom the HPC2N documentation:\nThis is done using the passwd command:\npasswd\nUse a good password that combines letters of different case. Do not use dictionary words. Avoid using the same password that you also use in other places.\n\nIt will first ask for your current password. The first time you login, that will be the temporary password you created with the HPC2N password reset service.\nType in that and press enter.\nThen type in the new password you want, enter, and repeat.\nYou have changed the password.\n\n\n\nYou are now on connected to the login node of the cluster.\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nRead here more about HPC cluster architecture. Read until the header MPI.\n\n\nThis location is the home folder of your account.\nOpen up the terminal in VScode (View -&gt; Terminal), and you are ready for the next chapter, learning (or repeating) the basics of the command line."
+  },
+  {
     "objectID": "NGS2.html",
     "href": "NGS2.html",
     "title": "",
@@ -103,117 +229,5 @@
     "title": "",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nhttps://www.ebi.ac.uk/training/online/courses/functional-genomics-ii-common-technologies-and-data-analysis-methods/rna-sequencing/performing-a-rna-seq-experiment/data-analysis/read-mapping-or-alignment/↩︎\nhttps://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/mapping/tutorial.html↩︎"
-  },
-  {
-    "objectID": "server_access.html",
-    "href": "server_access.html",
-    "title": "Create user accounts for the course server",
-    "section": "",
-    "text": "The following procedure takes a few days to get through because of clearance delays, so please start straight away, since every thing else in the course depends on it :)\nWe will run parts of this course on a High Performance Computing cluster, HPC2N. The cluster is a local resource in Umeå, and to use it you need a user account both at the National Academic Infrastructure for Super­computing in Sweden (NAISS), and at HPC2N."
-  },
-  {
-    "objectID": "server_access.html#create-a-user-account-at-suprnaiss",
-    "href": "server_access.html#create-a-user-account-at-suprnaiss",
-    "title": "Create user accounts for the course server",
-    "section": "Create a user account at SUPR/NAISS",
-    "text": "Create a user account at SUPR/NAISS\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nFill out & submit the account request form. Open this and all the following links in a different tab, they do NOT properly open in Canas. \nRead carefully and follow the provided instructions.\n\n\n\n\n\n\n\n\nTip\n\n\n\n\nUse “Register with Federated Identity” if you are enrolled in a Swedish university.\nIf you are not enrolled in a Swedish university or if the previous option doesn’t work for you, use instead “Register without Federated Identity”.\n\n\n\n\nAccept NAISS user agreement\nJust after creating the SUPR account, on the page you are taken to, there will be a section titled “User Agreement” at the very top. Just under it is the button named “Accept NAISS User Agreement”.\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nClick it.\n\n\nAlternately, if you do this at a later point. Login to SUPR. At the very top it will say “NAISS User Agreement Pending”.\n\n\n\n\n\n\nTip\n\n\n\n\nUse With SWAMID if you are enrolled in a Swedish university - this option is much faster!\nIf you are not enrolled in a Swedish university use instead Alternative: Offline via Paper Form. Here you will have to print out, sign and send in the form. This may take up to a week. \n\n\n\nWhen you have a SUPR account you can join our course project on HPC2N:"
-  },
-  {
-    "objectID": "server_access.html#join-the-course-project-at-hpc2n",
-    "href": "server_access.html#join-the-course-project-at-hpc2n",
-    "title": "Create user accounts for the course server",
-    "section": "Join the course project at HPC2N",
-    "text": "Join the course project at HPC2N\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nLog in to SUPR.\n\nClick “Projects” in the left side column.\nUnder “Requesting Membership in Projects”, put in hpc2n2025-237, the identification of the project you wish to join. Click “Search for Project”.\nClick “Request” on the project.\nWe will then get an e-mail notification about your request. Once we have accepted your membership, you in turn will get an e-mail, telling you that the membership has been accepted. Then, go to SUPR again to apply for an account at HPC2N."
-  },
-  {
-    "objectID": "server_access.html#create-a-user-account-at-hpc2n",
-    "href": "server_access.html#create-a-user-account-at-hpc2n",
-    "title": "Create user accounts for the course server",
-    "section": "Create a user account at HPC2N",
-    "text": "Create a user account at HPC2N\nNote: you must be a member of a project before you do this!\n\n\n\n\n\n\nImportantTo do for you\n\n\n\n\nLogin to SUPR.\nClick “Accounts” in the left side column.\nYou can request an account at HPC2N now. Look under the heading “Account Requests”.\nClick “Request account”.\nYour information will then be sent to HPC2N, and you will be taken back to a webpage where you can choose your username.\nUser accounts are usually created once a week. You will get an email from HPC2N when your account has been created."
-  },
-  {
-    "objectID": "server_access.html#questions",
-    "href": "server_access.html#questions",
-    "title": "Create user accounts for the course server",
-    "section": "Questions?",
-    "text": "Questions?\nContact me via canvas!"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "",
-    "section": "",
-    "text": "Code\n\n\n\n\n\n\nThe data\nThe data we will be working on today are DNA sequencing data and RNA sequencing data from cassava cultivars.\nThe paired end DNA sequences were retreived from the cassava cultivar called TMEB117, a strain that whose genome is now known and that, due to its susceptibility to certain cassava diseases, can be used as a reference for studying virus resistance mechanisms in cassava.\nThe paired end RNA sequencing data comes from a cassava genotype called TMEB419. This cultivar was bred to be highly resistant to various cassava viruses and is used commercially.\nSpecial thanks to Andreas Gisel for providing these samples (and the picture above)!\n\n\nData location\nThe data is located on the server in the directory /sw/courses/slu_bioinfo."
-  },
-  {
-    "objectID": "NGS1.html",
-    "href": "NGS1.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "NGS1.html#connect-to-dardel",
-    "href": "NGS1.html#connect-to-dardel",
-    "title": "",
-    "section": "Connect to Dardel",
-    "text": "Connect to Dardel\nFor this tutorial we will connect to Dardel. For everyone connecting via Kerberos this is the command:\nssh -o GSSAPIAuthentication=yes &lt;PDC username&gt;@dardel.pdc.kth.se\nFor logging in via SSH keys, the command is the following:\nssh  &lt;PDC_username&gt;@dardel.pdc.kth.se"
-  },
-  {
-    "objectID": "NGS1.html#start-a-screen-session",
-    "href": "NGS1.html#start-a-screen-session",
-    "title": "",
-    "section": "Start a screen session",
-    "text": "Start a screen session\nScreen or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.\nStart a named session\nscreen -S qc\nYou can detach from the screen session. The process within the screen will continue to run.\nCtrl + a d\nYou can always reattach to the session. If you have a number of screen running, or are unsure of the name or ID of the screen you want to reattach to you can list the currently running screens:\nscreen -ls\nTo resume your screen session use the following command:\nscreen -r name"
-  },
-  {
-    "objectID": "NGS1.html#change-into-pdc-scratch-space",
-    "href": "NGS1.html#change-into-pdc-scratch-space",
-    "title": "",
-    "section": "Change into PDC scratch space",
-    "text": "Change into PDC scratch space\nOn PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory it will look something like this:\npwd\n\n/cfs/klemming/home/&lt;user letter&gt;/&lt;user name&gt;\n\nYou can always come back to your home directory by entering:\ncd\nThe home directories have a quota of 25 GB, so there is not much space in them.\nHowever, connected to our home directories, PDC has a temporary disk space, called scratch. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.\nTo move into the scratch space, change into it:\ncd $PDC_TMP\nYou can check that you are in it by printing your working directory:\npwd\n\n/cfs/klemming/scratch/&lt;user letter&gt;/&lt;user name&gt;"
-  },
-  {
-    "objectID": "NGS1.html#create-a-directory-to-work-in",
-    "href": "NGS1.html#create-a-directory-to-work-in",
-    "title": "",
-    "section": "Create a directory to work in",
-    "text": "Create a directory to work in\nStart by creating a workspace for the raw data used in this exercise in your scratch space, and then move into it:\nmkdir -p  NGS_course/raw\ncd NGS_course/raw"
-  },
-  {
-    "objectID": "NGS1.html#create-symbolic-link-to-the-data",
-    "href": "NGS1.html#create-symbolic-link-to-the-data",
-    "title": "",
-    "section": "Create symbolic link to the data",
-    "text": "Create symbolic link to the data\nThe raw data files are located in:\n/sw/courses/slu_bioinfo\nYou could copy the files into your workspace to access them. However, it is better to create symbolic links (also called soft links) to the data files. This saves disk space and still allows you to work with them as if they were in your own directory.\nCreate symbolic links to the fastq files in your workspace:\nln -s /sw/courses/slu_bioinfo/*.fastq .\nYou now have four files in your directory: two for the TMEB117 cultivar containing the DNA sequences, and two for the TMEB419 cultivar, containing the RNA sequencing results."
-  },
-  {
-    "objectID": "NGS1.html#apptainer",
-    "href": "NGS1.html#apptainer",
-    "title": "",
-    "section": "Apptainer",
-    "text": "Apptainer\nThere are several ways to manage bioinformatics tools, such as using Conda, container platforms, or the module system, which you might have encountered in a previous course.\nIn this tutorial, we will focus on Apptainer — the open-source version of Singularity. By using Apptainer, we are flexible in running tools and specific tool versions that may not be directly installed on the system we are working on. All we need for this is a system where Apptainer is installed. Luckily for us, Dardel is one such system.\nLoad the module with\nmodule load PDC apptainer\nMake a directory for the output of the tool:\ncd .. \nmkdir fastqc\nCheck the directory you are in:\npwd \nYou should be located in\n\n/NGS_course"
-  },
-  {
-    "objectID": "NGS1.html#getting-apptainer-image",
-    "href": "NGS1.html#getting-apptainer-image",
-    "title": "",
-    "section": "Getting apptainer image",
-    "text": "Getting apptainer image\nOne good place to get quality controlled Apptainer/Singularity containers that contain the tools we want to use is seqera containers.\ngo to their homepage\nin the searchbar, type in the tool you want - fastqc\n\n\nAdd the tool you want to have in your container (in this case fastqc from Bioconda).\nIn the container settings underneath the search bar, select Singularity and linux/amd64\nClick “get container”\n\n\nOnce the container is ready select HTTPS and copy the name of the image."
-  },
-  {
-    "objectID": "NGS1.html#download-container-images",
-    "href": "NGS1.html#download-container-images",
-    "title": "",
-    "section": "Download container images",
-    "text": "Download container images\nTo have a nice and clean project directory we will make a new sub-directory that will contain all the singularity images we will use during this tutorial.\nmkdir singularity_images\ncd singularity_images\nNow we can pull the container image from its location into our folder:\nsingularity pull --name fastqc_0.12.1.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/e0/e0c976cb2eca5fee72618a581537a4f8ea42fcae24c9b201e2e0f764fd28648a/data\nThen we move out of the directory again:\ncd .."
-  },
-  {
-    "objectID": "NGS1.html#running-fastqc-with-sbatch",
-    "href": "NGS1.html#running-fastqc-with-sbatch",
-    "title": "",
-    "section": "Running fastqc with sbatch",
-    "text": "Running fastqc with sbatch\nDardel is using slurm as its jobmanager (as you have heard earlier today). We will now use slurm’s command sbatch to run fastqc with the container image.\nAgain, we want to maintain a clean and orderly project directory:\nIn your NGS_course folder, create a new directory called scripts, within this directory create a file called fastqc.sh.\nmkdir scripts\ncd scripts\nmodule load nano/7.2\nnano fastqc.sh\n\n\n\n\n\n\nTipNano\n\n\n\nNano is a Linux command line text editor. Commands are prefixed with ^or M characters. The caret symbol ^ represents the Ctrl key. For example, the ^X commands mean to press the Ctrl and X keys at the same time. The letter M represents the Alt key.\nMore information here.\n\n\nCopy the following into the file, and save the contents. Read through the file and try to understand what the different lines are doing.\n#! /bin/bash -l\n\n#SBATCH -A edu24.bk0001\n#SBATCH -t 15:00\n#SBATCH -n 4\n#SBATCH -p shared\n\nmodule load PDC apptainer\n\n# Get CPUS allocated to slurm script (-n above)\nCPUS=$SLURM_NPROCS\n\nsingularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastqc_0.12.1.sif \\\n    fastqc -t $CPUS -o fastqc/ raw/*.fastq\n    echo \"complete\"\nThe slurm options used here:\n\nA: project ID\nt allocated time dd-hh:mm:ss\nn number of cpus\np partition to use - here we will use the shared partition\n\nMove back into the NGS_course directory and submit the script to slurm:\ncd ..\nsbatch scripts/fastqc.sh\nAfter running a bash script you will get a slurm output. Look at that output. See if you understand what that output contains.\nless slurm-XXXXX.out\nLocate the output of FastQC.\n\n\n\n\n\n\nNote\n\n\n\nWhich output directory did you specify in the batch file?\n\n\nFor each fastq file you will get two output files:\n\nTMEB117_R1_frac_fastq.zip (report, data files and graphs)\n\n\nTMEB117_R1_frac_fastq.html (report in html)\n\nLet’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command (for Kerberos users):\nrsync -e \"ssh -o  GSSAPIAuthentication=yes\"  -ah &lt;user&gt;@dardel.pdc.kth.se:/cfs/klemming/scratch/&lt;user_letter&gt;/&lt;user&gt;/NGS_course/fastqc .\nSSH key users need to remove the -e \"ssh -o  GSSAPIAuthentication=yes\"part.\nLet’s look at the files. Go through the reports to understand your sample.\nYou see that it is getting kind of tedious to look through all the different files one by one. Okay with only a few files, but imagine having to sift through a few dozen, or even hundreds of reports."
   }
 ]
