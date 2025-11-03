@@ -5,14 +5,16 @@ website:
   title: "Introduction to Bioinformatics NGS"
   navbar:
     left:
+      - href: server_accounts.qmd
+        text: Server Accounts
       - href: server_access.qmd
-        text: server accounts
+        text: Server Access      
       - href: index.qmd
         text: Data
       - href: NGS1.qmd
-        text: quality control
+        text: Quality Control
       - href: NGS2.qmd
-        text: mapping
+        text: Mapping
 
 
 format: 
