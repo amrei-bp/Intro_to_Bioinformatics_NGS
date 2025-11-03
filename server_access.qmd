@@ -113,7 +113,7 @@ Now you can set up the interactive session.
 
 - Select our compute project in the drop-down menu under "Compute Project".
 - Select the appropriate number of hours. 
-- Type in the path to the course directory in "Working Directory":
+- Type in the path to the course directory in "Working Directory" (replace XXX with the actual project ID - you can find that when you log in to SUPR/NAISS):
 ```{.bash}
 /proj/nobackup/hpc2nstor2025-XXX
 ```
