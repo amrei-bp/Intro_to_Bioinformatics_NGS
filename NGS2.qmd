@@ -13,13 +13,19 @@ Now that you have looked at the quality of the samples, let's do the next step o
 
 # Preparations
 
-## Connect to Dardel
+## Connect to HPC2N
 
-For this tutorial we will connect to Dardel. For everyone connecting via Kerberos this is the command:
+For this tutorial we will connect to the course server.
 
-```{.bash}
-ssh -o GSSAPIAuthentication=yes <PDC username>@dardel.pdc.kth.se
-````
+To connect to the server, please follow the instructions [here](server_access.qmd).
+
+Quick access link to the on-demand service of HPC2N: 
+
+[HPC2N on-demand link](https://portal.hpc2n.umu.se/public/landing_page.html).
+
+## Navigate to your course directory
+
+Make sure you are in your folder in the course directory. 
 
 ## Start a screen session
 
@@ -49,35 +55,10 @@ To `resume your screen session` use the following command:
 screen -r name
 ```
 
-::: {.callout-tip}
-## Exercise
-
+::: {.callout-important}
+## To do for you
 Can you find the screen session that you started last friday? 
 :::
-
-
-## Change into PDC scratch space
-
-To move into the scratch space, change into it:
-
-```{.bash}
-cd $PDC_TMP
-```
-
-You can check that you are in it by printing your working directory:
-
-```{.bash}
-pwd
-```
-
-> /cfs/klemming/scratch/\<user letter>/\<user name>
-
-::: {.callout-tip}
-## Exercise
-
-Do you remember why we decided to work from scratch?
-:::
-
 
 
 # Read mapping
@@ -118,19 +99,19 @@ To save time and computation power we will use only chromosome01 for the exercis
 The reference data files are located in:
 
 ```{.bash}
-/sw/courses/slu_bioinfo
+path/to/course/training_data
 ```
 
-Create symbolic links to the fastq files in your workspace:
+Create symbolic links to the fastq files in your workspace (you might have to change the relative path to the files):
 
 ```{.bash}
-ln -s /sw/courses/slu_bioinfo/chromosome01.fasta  .
-ln -s /sw/courses/slu_bioinfo/Mesculenta_671_v8.1.gene_exons.gtf .
-ln -s /sw/courses/slu_bioinfo/Mesculenta_671_v8.1.gene_exons.gff3 .
+ln -s ../../../../training_data/chromosome01.fasta .
+ln -s ../../../../training_data/Mesculenta_671_v8.1.gene_exons.gff3 .
+ln -s ../../../../training_data/Mesculenta_671_v8.1.gene_exons.gtf .
 ```
 
-::: {.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Do you remember why we decided to link to the files instead of copying them?
 :::
@@ -171,7 +152,7 @@ Each NGS mapper uses indices to accelerate the mapping process, but unfortunatel
 Create a bash file within the scripts directory:
 
 ```{.bash}
-nano bowtie_index.sh
+bowtie_index.sh
 ```
 
 And copy the followiing into the file: 
@@ -179,20 +160,17 @@ And copy the followiing into the file:
 ```{.bash}
 #! /bin/bash -l
 
-#SBATCH -A edu24.bk0001
+#SBATCH -A hpc2n2025-XXX
 #SBATCH -t 05:00
 #SBATCH -n 1
-#SBATCH -p shared
 
 set -ueo pipefail
-
-module load PDC apptainer
 
 # Define input reference and output directory
 REFERENCE=ref/chromosome01.fasta
 OUTPUT_DIR=ref/
 
-singularity exec  -B /sw/courses/slu_bioinfo/ ../singularity_images/bowtie2_2.5.4.sif \
+singularity exec ../singularity_images/bowtie2_2.5.4.sif \
     bowtie2-build -o 3 $REFERENCE $OUTPUT_DIR/Bowtie2Cassava01Index
     
 echo "complete"
@@ -205,7 +183,7 @@ sbatch ../scripts/bowtie_index.sh
 ```
 
 ::: {.callout-important}
-Make sure you run this code from within the "mapping directory". 
+Make sure you run this code from within the "mapping" directory. 
 :::
 
 You will get the following index files:
@@ -228,14 +206,11 @@ Make a file in the scripts folder `bowtie2_mapping.sh`.
 ```{.bash}
 #! /bin/bash -l
 
-#SBATCH -A edu24.bk0001
+#SBATCH -A hpc2n2025-XXX
 #SBATCH -t 15:00
 #SBATCH -n 4
-#SBATCH -p shared
 
 set -ueo pipefail
-
-module load PDC apptainer
 
 # Get CPUS allocated to slurm script (-n above)
 CPUS=$SLURM_NPROCS
@@ -255,20 +230,36 @@ singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_imag
 echo "complete"
 ```
 
+::: {.callout-important}
+## To do for you
 Save the script in the scripts directory and run the code. 
+:::
+
+::: {.callout-tip}
+You can check running jobs with
+
+```{.bash}
+squeue -u <your_user_name>
+```
+:::
 
 We will get a mapping file in the SAM format and the log file with the mapping statistics.
 
 > mapping/bowtie2/TMEB117.sam\
 > mapping/bowtie2/TMEB117.log
 
-::: {.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Check the log and find how many unique hits of pairs we have. What does that even mean?
 :::
 
-Check the SAM file and check how many hits we have - use `samtools` to do so. Module load the tool, or get the appropriate container. Look into the `samtools manual` to figure out how to look at the file.
+Check the SAM file and check how many hits we have - use `samtools` to do so.
+
+::: {.callout-important}
+## To do for you
+Get the appropriate container and use it from within with `apptainer shell`. Look into the `samtools manual` to figure out how to look at the file.
+:::
 
 Now you can play around a bit. You could see what influence the trimming might have on the mapping of these data. For that re-run the mapping with the trimmed data. Make sure you point towards the correct file paths!
 
@@ -350,20 +341,17 @@ from the appropriate directory.
 ```{.bash}
 #! /bin/bash -l
 
-#SBATCH -A edu24.bk0001
+#SBATCH -A hpc2n2025-XXX
 #SBATCH -t 05:00
 #SBATCH -n 1
-#SBATCH -p shared
 
 set -ueo pipefail
-
-module load PDC apptainer
 
 INDEX=ref/STARCassava01Index
 REFERENCE=ref/chromosome01.fasta
 GTF=ref/Mesculenta_671_v8.1.gene_exons.gtf
 
-singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/star_2.7.11b.sif \
+singularity exec ../singularity_images/star_2.7.11b.sif \
     STAR    --runMode genomeGenerate \
         --genomeDir $INDEX \
         --genomeFastaFiles $REFERENCE \
@@ -379,8 +367,8 @@ With this you will end up with a bunch of index files:
 
 Files like `geneInfo.tab`, `exonGeTrInfo.tab`, `transcriptInfo.tab`, `exonInfo.tab`, `sjdbList.fromGTF.out.tab`, `sjdbList.out.tab`, `sjdbInfo.txt` contain the indexing information of the predicted genes, transcripts, exons and splicing sites annotated in the `Mesculenta_671_v8.1.gene_exons.gtf file`. Have a look around!
 
-:::{.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Have a look around the files to see what you discover!
 :::
@@ -401,14 +389,11 @@ And then save the following script and run it with sbatch (like above).
 ```{.bash}
 #! /bin/bash -l
 
-#SBATCH -A edu24.bk0001
+#SBATCH -A hpc2n2025-XXX
 #SBATCH -t 15:00
 #SBATCH -n 4
-#SBATCH -p shared
 
 set -ueo pipefail
-
-module load PDC apptainer
 
 # Get CPUS allocated to slurm script (-n above)
 CPUS=$SLURM_NPROCS
@@ -428,7 +413,6 @@ singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_imag
         --readFilesIn $READ1 $READ2
 
 echo "complete"
-
 ```
 
 Run with `sbatch`. 
@@ -437,8 +421,8 @@ Your output will be the SAM file, report files and the list of predicted splicin
 
 
 
-:::{.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Inspect the report file and check the mapped reads and the average mapped length.
 
@@ -449,8 +433,8 @@ Is this a good mapping?
 
 After quality control and mapping, a typical next step when working with NGS data would be to annotate the reads, so you get an idea of what you are looking at. You will do that later in this course. 
 
-:::{.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Look back at the NGS_course directory. What do you think, did you manage to keep the chaos at bay? What went well in keeping order and what could be improved? Discuss with your neighbour.
 :::
