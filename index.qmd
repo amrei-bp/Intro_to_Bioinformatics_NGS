@@ -12,4 +12,4 @@ Special thanks to Andreas Gisel for providing these samples (and the picture abo
 
 # Data location
 
-The data is located on the server in our course project in the directory `data`.
+The data is located on the server in our course project in the directory `path/to/course/training_data`.

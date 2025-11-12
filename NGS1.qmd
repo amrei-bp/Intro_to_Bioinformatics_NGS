@@ -1,32 +1,59 @@
-# Learning objectives
+---
+title: "Quality control of sequencing data"
+subtitle: "screen, slurm, Apptainer, FastQC, MultiQC"
+---
 
-- run `fastqc` of some NGS files to learn to understand the output
+<br>
+Regardless of what type of bioinformatics project you are working on, you will have to assess whether the data you have is of good enough quality to proceed with - bad input data can seriously impair your ability to draw conclusions from the samples later on!
+
+Poor quality sequencing data can be caused by a variety of factors, such as sample contamination, improper sample handling, technical problems. Some of these problems will be checked for before and during the sequencing - it is always good to read all documentation coming from the sequencing facility. 
+
+When it comes to sequencing data, FastQC is a well known and often used software to check raw reads for their quality. 
+
+::: {.callout-note}
+Sample preparation includes fragmenting the genome into the **sequencing library**.
+
+A **read** is the inferred nucleotide base sequence of a genome fragment as determined by the sequencer. 
+:::
+
+
+# Quality Control Tutorial
+
+Within this tutorial we will
+
+- use the job scheduler `slurm`
 - learn about containers, and where to get them, and how to use them with `apptainer`
-- run `multiqc` to aggregate multiple reports from a variety of tools
+- run `fastqc` on some raw sequencing files to practice and to understand the output
+- run `multiqc` to summarize the FastQC output
 - run `fastp` to do adapter trimming
+
 
 # Preparations
 
-## Connect to Dardel
+## Connect to HPC2N
 
-For this tutorial we will connect to Dardel. For everyone connecting via Kerberos this is the command:
+For this tutorial we will connect to the course server.
 
-```{.bash}
-ssh -o GSSAPIAuthentication=yes <PDC username>@dardel.pdc.kth.se
-```
+To connect to the server, please follow the instructions [here](server_access.qmd).
 
-For logging in via SSH keys, the command is the following: 
+Quick access link to the on-demand service of HPC2N: 
 
-```{.bash}
-ssh  <PDC_username>@dardel.pdc.kth.se
-```
+[HPC2N on-demand link](https://portal.hpc2n.umu.se/public/landing_page.html).
+
+## Navigate to your course directory
+
+Make. sure you are in your folder in the course directory. 
+
+::: {.callout-tip}
+Use the command line commands `ls` to list the contents of the directory you are currently in, `pwd` to print the path of the current working directory, and `cd` to navigate between directories. 
+:::
 
 ## Start a screen session
 
 [Screen](https://www.gnu.org/software/screen/manual/screen.html) or GNU Screen is a terminal multiplexer. In other words, it means that you can start a screen session and then open any number of windows (virtual terminals) inside that session. Processes running in Screen will continue to run when their window is not visible even if you get disconnected.
 
 
-Start a `named session`
+Start a `named session`, with the name `qc`:
 
 ```{.bash}
 screen -S qc
@@ -49,44 +76,9 @@ To `resume your screen session` use the following command:
 screen -r name
 ```
 
-## Change into PDC scratch space
-
-On PDC course allocations do not get an assigned storage allocation. They expect us to work from our home directories. The home directory is where you land when you connect to Rackham. If you check your current working directory  it will look something like this:
-
-```{.bash}
-pwd
-```
-
-> /cfs/klemming/home/\<user letter>/\<user name>
-
-You can always come back to your home directory by entering:
-
-```{.bash}
-cd
-```
-
-The home directories have a quota of 25 GB, so there is not much space in them.
-
-
-However, connected to our home directories, PDC has a `temporary disk space, called scratch`. The scratch area is intended for temporary large files that are used during calculations. There is no quota on the space, and it gets cleaned up after 30 days. This is where we will run our computations.
-
-To move into the scratch space, change into it:
-
-```{.bash}
-cd $PDC_TMP
-```
-
-You can check that you are in it by printing your working directory:
-
-```{.bash}
-pwd
-```
-
-> /cfs/klemming/scratch/\<user letter>/\<user name>
-
 ## Create a directory to work in
 
-Start by creating a workspace for the raw data used in this exercise in your scratch space, and then move into it:
+From within your personal directory on the course project, start by creating a workspace for the raw data used in this exercise in your scratch space, and then move into it:
 
 ```{.bash}
 mkdir -p  NGS_course/raw
@@ -98,7 +90,7 @@ cd NGS_course/raw
 The raw data files are located in:
 
 ```{.bash}
-/sw/courses/slu_bioinfo
+path/to/course/training_data
 ```
 
 You could copy the files into your workspace to access them. However, it is better to create symbolic links (also called soft links) to the data files. This saves disk space and still allows you to work with them as if they were in your own directory.
@@ -106,73 +98,99 @@ You could copy the files into your workspace to access them. However, it is bett
 Create symbolic links to the fastq files in your workspace:
 
 ```{.bash}
-ln -s /sw/courses/slu_bioinfo/*.fastq .
+ln -s path/to/course/data/*.fastq .
 ```
 
 You now have four files in your directory: two for the TMEB117 cultivar containing the DNA sequences, and two for the TMEB419 cultivar, containing the RNA sequencing results.
 
+::: {.callout-important}
+## To do for you
+Leave the `/raw` directory and make sure that you are back in your personal course `directory/NGS_course` folder.
+:::
 
-# FastQC
+
+# Data format
+
+You now have the raw sequencing data, in a very common data format, fastq. Let's have a look at the data (change the name of the file accordingly): 
+
+```{.bash}
+cat raw/sample.fastq.gz | head -n 10 
+```
+
+For each read we see an entry consisting of four lines. Every new read starts with an `@`. 
+
+| Line | Content|
+|-|-----|
+| 1    | Information about the read, always starts with an `@`|
+| 2    | nucleic sequence of the read|
+| 3    | starts with \`+\`, can (but does not have to) contain data|
+| 4    | characters representing the quality scores with the bases of the read sequence |
+
+: Fastq format
+
+::: {.callout-note}
+The quality score is encoded in ASCII, to represent scores from 0 (high probability of error in calling the base) to 42 (low probability of error in calling the base). 
+:::
+
+We could now look through the fastq file and scan the quality scores for the reads in our sample one by one. Sounds kind of tedious, doesn't it? Luckily, here comes FastQC (and other, similar tools). 
+
+
+# FastQC Intro
 
 [`Fastqc`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a simple tool to monitor the quality and the properties of a NGS sequencing file in fastq, SAM and BAM format.
 
-FastQC performs a series of quality control analyses, called modules. The output is a HTML report with one section for each module, and a summary evaluation of the results in the top. "Normal" results are marked with a green tick, slightly abnormal results raise warnings (orange exclamation mark), and very unusual results raise failures (red cross).
+FastQC will give us an overview of the entire sample, so we won't have to look at the quality score of every single read in the sample. 
+
+In addition to the quality scores, FastQC also performs a series of quality control analyses, called modules. The output is a HTML report with one section for each module, and a summary evaluation of the results in the top. "Normal" results are marked with a green tick, slightly abnormal results raise warnings (orange exclamation mark), and very unusual results raise failures (red cross).
 
 Keep in mind that even though FastQC is giving out pass/fail results for your samples, these evaluations must be taken in the context of what you expect from your library. A ‘normal’ sample as far as FastQC is concerned is random and diverse. However, because of project design your samples might deviate from this expectation. The summary evaluations should be pointers to where you have to concentrate your attention and understand why your library may not look random and diverse.
 
-## Apptainer
-
-There are several ways to manage bioinformatics tools, such as using `Conda`, `container platforms`, or the `module system`, which you might have encountered in a previous course.
-
-In this tutorial, we will focus on `Apptainer` — the open-source version of Singularity. By using Apptainer, we are flexible in running tools and specific tool versions that may not be directly installed on the system we are working on. All we need for this is a system where Apptainer is installed. Luckily for us, Dardel is one such system.
-
-Load the module with
+::: {.callout-important}
+## To do for you
+Let's see which version is installed on the server:
 
 ```{.bash}
-module load PDC apptainer
+fastqc --version
 ```
+:::
 
-Make a directory for the output of the tool:
+Oh no! FastQC is not installed on the server, what can we do? 
 
-```{.bash}
-cd .. 
-mkdir fastqc
-```
+# Containers
 
-Check the directory you are in:
+In this tutorial, we will be using `containers` to run tools and specific tool versions that may not be directly installed on the system we are working on.
 
-```{.bash}
-pwd 
-```
+## What are containers?
 
-You should be located in
+Containers are stand-alone pieces of software that require a container management tool to run. They are build and exchanged as container images that specify the contents of the container, such as the operating system, all dependencies, and software in an isolated environment. The container management tool then takes the images and build the container. These management tools can be run on all operating systems, and since the container has the operating system within it, it will run the same in all environments. Container images are easily portable and immutable, so they are stable over time.
 
-> <your_scratch_space>/NGS_course
+## Running Containers
+
+There are several programs that can be used to build and run containers. [Docker](https://www.docker.com), [Appptainer](https://apptainer.org), and [Podman](https://podman.io) are the most commonly used platforms to date. They all have their pros and cons. If you are using a Windows machine that only you are using, then Docker is likely the least complex tool to install. On multi-user systems like a server, Apptainer is the best tool for the job. For this tutorial and the rest of the course, we will use Apptainer commands. There are small syntax changes between bash and powershell commands, but they are very similar.
 
 ## Getting apptainer image
 
 One good place to get quality controlled Apptainer/Singularity containers that contain the tools we want to use is [seqera containers](https://seqera.io/containers/).
 
+- Go to their homepage.
 
-go to their homepage
-
-in the searchbar, type in the tool you want - fastqc
+- In the searchbar, type in the tool you want - fastqc
 
 [![](images/seqera_cont_one)]()
 
 <br><br>
 
-Add the tool you want to have in your container (in this case `fastqc` from Bioconda).
+- Add the tool you want to have in your container (in this case `fastqc` from Bioconda).
 
-In the container settings underneath the search bar, select Singularity and linux/amd64
+- In the container settings underneath the search bar, select Singularity and linux/amd64
 
-Click "get container"
+- Click "get container".
 
 [![](images/seqera_cont_2)]()
 
 <br><br>
 
-Once the container is ready select HTTPS and copy the name of the image.
+- Once the container is ready copy the path of the image.
 
 [![](images/seqera_cont_3)]()
 
@@ -189,7 +207,7 @@ cd singularity_images
 Now we can pull the container image from its location into our folder:
 
 ```{.bash}
-singularity pull --name fastqc_0.12.1.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/e0/e0c976cb2eca5fee72618a581537a4f8ea42fcae24c9b201e2e0f764fd28648a/data
+singularity pull --name fastqc_0.12.1.sif oras://community.wave.seqera.io/library/fastqc:0.12.1--104d26ddd9519960
 ```
 
 Then we move out of the directory again:
@@ -198,9 +216,56 @@ Then we move out of the directory again:
 cd .. 
 ```
 
+
+### Running Containers
+Once you have pulled the container image, you want to be able to use it. Apptainer can be used to build the container from the image.
+
+#### running "from the outside"
+
+There are 2 different ways to use a container: `run` and `exec`. The `apptainer run` command launches the container and first runs the `%runscript` for the container if one is defined, and then runs your command (we will cover `%runscript` in the `Building Containers` section). The `apptainer exec` command will not run the `%runscript` even if one is defined. It is a small, fiddly detail that might be applicable if you use other people's containers. After calling Apptainer and the `run` or `exec` commands, you can use your software as you usually would
+
+```{.bash}
+apptainer exec singularity_images/fastqc_0.12.1.sif fastqc --version
+```
+
+This command runs your `fastqc_0.12.1.sif` container from the image, calls on the program `fastqc` that is within the container, and shows you the version. If you had installed FastQC locally, you would have just used 
+
+```{.bash}
+fastqc --version
+```
+
+::: {.callout-important}
+FastQC is just an example. If you want to run any other tool everything after `apptainer run` or `apptainer exec` has to be substituted by the name of the specific container image and the run commands for that particular tool!
+:::
+
+
+#### running interactively "from the inside"
+
+You can also enter the container, and work interactively from within. For that you use the `apptainer shell` command:
+
+```{.bash}
+apptainer shell singularity_images/fastqc_0.12.1.sif
+```
+
+Inside the container, your prompt will change to `Singularity` (remember, that is the legacy name for Apptainer). Now you can use the tools inside the container. 
+
+To exit the container, simply type and enter `exit`. 
+
+Great, now we have FastQC ready and can use it. How can we submit the job to the server?
+
+## SLURM
+
+HPC2N is running SLURM (Simple Linux Utility for Resource Management) as its job scheduling system. When you submit a job on the cluster log-in node, SLURM will start, execute and monitor your jobs on the working nodes. It allocates access to the cluster resources, and manages the queue of pending jobs. [Here](https://docs.hpc2n.umu.se/documentation/batchsystem/intro/) is a more thorough documentation of SLURM on Kebnekaise. 
+
+To be able to do so, SLURM needs a bit of information from us when we submit a job:
+
+- -A: project_ID (to deduct the used computing time from the correct project) 
+- -t allocated time dd-hh:mm:ss (to optimize the job queue) 
+- -n number of cores (default is one)
+
 ## Running fastqc with sbatch
 
-Dardel is using `slurm` as its jobmanager (as you have heard earlier today). We will now use slurm's command sbatch to run fastqc with the container image.
+We will now write a script that runs fastqc on our samples - using the container we pulled. We will add the slurm flags from above and then submit to the server queue with the SLURM command `sbatch`. 
 
 Again, we want to maintain a clean and orderly project directory:
 
@@ -209,7 +274,6 @@ In your NGS_course folder, create a new directory called scripts, within this di
 ```{.bash}
 mkdir scripts
 cd scripts
-module load nano/7.2
 nano fastqc.sh
 ```
 
@@ -224,19 +288,15 @@ Copy the following into the file, and save the contents. Read through the file a
 
 ```{.bash}
 #! /bin/bash -l
-
-#SBATCH -A edu24.bk0001
+# The name of the compute account you are running in, mandatory.
+#SBATCH -A hpc2n2025-XXX
+# Request runtime for the job (HHH:MM:SS) where 168 hours is the maximum. Here asking for 15 min. 
 #SBATCH -t 15:00
+# Request resources - here for four cpus
 #SBATCH -n 4
-#SBATCH -p shared
 
-module load PDC apptainer
-
-# Get CPUS allocated to slurm script (-n above)
-CPUS=$SLURM_NPROCS
-
-singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastqc_0.12.1.sif \
-    fastqc -t $CPUS -o fastqc/ raw/*.fastq
+apptainer exec singularity_images/fastqc_0.12.1.sif \
+    fastqc -o fastqc/ raw/*.fastq
     echo "complete"
 ```
 
@@ -245,7 +305,6 @@ The slurm options used here:
 - A: project ID
 - t allocated time dd-hh:mm:ss
 - n number of cpus
-- p partition to use - here we will use the shared partition
 
 Move back into the NGS_course directory and submit the script to slurm:
 
@@ -273,17 +332,21 @@ For each fastq file you will get two output files:
 
 > TMEB117_R1_frac_fastq.html (report in html)
 
-Let’s download both files to the local computer for consulting. Use a different terminal and navigate to where you want the files on your computer. Then copy the files with the following command (for Kerberos users):
+::: {.callout-important}
+## To do for you
+Now you can download the .html report from the server and look at them: 
+
+In VScode: right click on the file in the file explorer --> download
+
+From another terminal: open a local different terminal and navigate to where you want the files on your computer. Then copy the files with rsync (modify as needed). 
 
 ```{.bash}
-rsync -e "ssh -o  GSSAPIAuthentication=yes"  -ah <user>@dardel.pdc.kth.se:/cfs/klemming/scratch/<user_letter>/<user>/NGS_course/fastqc .
+rsync -ah <user_name>@kebnekaise.hpc2n.umu.se:/proj/nobackup/hpc2nstor2025-XXX/<folder_name>/NGS_course/fastqc .
 ```
 
-SSH key users need to remove the `-e "ssh -o  GSSAPIAuthentication=yes" `part. 
-
-
-Let's look at the files. Go through the reports to understand your sample.
-
+- What is the quality of your sample? 
+- Look at online resources to see if what you see is a problem, or expected because of the type of data you work with. A nice resource here is for example the [FastQC tutorial from the Michigan State University](https://rtsf.natsci.msu.edu/genomics/technical-documents/fastqc-tutorial-and-faq.aspx).
+:::
 
 You see that it is getting kind of tedious to look through all the different files one by one. Okay with only a few files, but imagine having to sift through a few dozen, or even hundreds of reports.
 
@@ -313,12 +376,9 @@ Within your scripts directory, make a new file, multiqc.sh, and add the followin
 ```{.bash}
 #! /bin/bash -l
 
-#SBATCH -A edu24.bk0001
+#SBATCH -A hpc2n2025-XXX
 #SBATCH -t 15:00
 #SBATCH -n 1
-#SBATCH -p shared
-
-module load PDC apptainer
 
 singularity exec singularity_images/multiqc_1.25.1.sif \
     multiqc -f -o multiqc .
@@ -326,18 +386,16 @@ singularity exec singularity_images/multiqc_1.25.1.sif \
 
 Navigate out of the scripts directory back into the NGS_course directory. 
 
-Make a directory called multiqc.
-
 Run the bash script with
 
 ```{.bash}
 sbatch scripts/multiqc.sh 
 ```
 
-The command output looks something like:
+The command output (in the slurm.out file) looks something like:
 
 
-> /// MultiQC 🔍 v1.25.1
+> /// MultiQC 🔍 v1.32
 > 
 > config | Loading config settings from: multiqc_config.yaml
 > file_search | Search path: /cfs/klemming/scratch/a/amrbin/NGS_course
@@ -351,8 +409,8 @@ The command output looks something like:
 
 Download the report and look at it. 
 
-::: {.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Understand what is going on. Read the documentation.
 
@@ -374,7 +432,7 @@ mkdir fastp
 Then retreive the container image from seqera containers:
 
 ```{.bash}
-singularity pull --name fastp_0.23.4.sif https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/3f/3fcff4f02e7e012e4bab124d64a2a50817dd64303998170127c8cf9c1968e10a/data
+singularity pull --name fastp_1.0.1.sif oras://community.wave.seqera.io/library/fastp:1.0.1--a5a7772c43b5ebcb
 ```
 
 Make sure the image is in the same folder as the other images we used so far.
@@ -384,13 +442,9 @@ Run fastp with the following bash script:
 ```{.bash}
 #! /bin/bash -l
 
-#SBATCH -A edu24.bk0001      # Project allocation
+#SBATCH -A hpc2n2025-XXX     # Project allocation
 #SBATCH -t 15:00             # Time limit
 #SBATCH -n 4                 # Number of cores
-#SBATCH -p shared            # Shared partition
-
-# Load necessary modules
-module load PDC apptainer
 
 # Get CPUs allocated to the script
 CPUS=$SLURM_NPROCS
@@ -415,7 +469,7 @@ apply_fastp() {
     PREFIX=$(basename "${READ1%_R1*}")
 
     # Run fastp within the Singularity container
-    singularity exec -B /sw/courses/slu_bioinfo/ singularity_images/fastp_0.23.4.sif \
+    singularity exec singularity_images/fastp_1.0.1.sif \
         fastp -w $CPUS \
         -i "$READ1" \
         -I "$READ2" \
@@ -437,16 +491,16 @@ done
 echo "complete"
 ```
 
-::: {.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Do you understand the bash script? Discuss with your neighbour and check out the manual for fastp.
 :::
 
 
 
-::: {.callout-tip}
-## Exercise
+::: {.callout-important}
+## To do for you
 
 Once you get the cleaned sequences run multiqc again to check the result.
 :::
