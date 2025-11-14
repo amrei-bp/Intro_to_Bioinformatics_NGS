@@ -354,9 +354,9 @@ You see that it is getting kind of tedious to look through all the different fil
 
 [MultiQC](https://seqera.io/multiqc/) searches a given directory for analysis logs and compiles a HTML report. It's a general use tool, perfect for summarising the output from numerous bioinformatics tools. It aggregates results from bioinformatics analyses across many samples into a single report.
 
-### Build the apptainer image
+### Pull the apptainer image
 
-On the seqera container page choose `bioconda::multiqc` for your container image. Proceed to build the container image, following the steps we did for `fastqc`.
+On the seqera container page choose `bioconda::multiqc` for your container image. Proceed to pull the container image, following the steps we did for `fastqc`.
 
 ### Download container image
 
