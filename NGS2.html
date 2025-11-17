@@ -4231,7 +4231,7 @@ mapping/bowtie2/TMEB117.log</p>
 <p><code>TMEB419</code> however is <code>RNA</code> sequencing data. While we could map the data with bowtie2 (try it out if you want to), there are aligners that are dedicated for RNA sequencing data. These find splicing sites within the reads and guarantee an accurate reconstruction of the sequenced transcripts.</p>
 <section id="star" class="level2">
 <h2 class="anchored" data-anchor-id="star">STAR</h2>
-<p><a href="https://github.com/alexdobin/STAR">STAR</a> is one such spicing site sensitive mapper for RNA sequencing data.</p>
+<p><a href="https://github.com/alexdobin/STAR">STAR</a> is one such splicing site sensitive mapper for RNA sequencing data.</p>
 </section>
 <section id="apptainer-image-1" class="level2">
 <h2 class="anchored" data-anchor-id="apptainer-image-1">Apptainer image</h2>
@@ -4346,7 +4346,7 @@ Note
 </section>
 <section id="map-with-star" class="level2">
 <h2 class="anchored" data-anchor-id="map-with-star">Map with STAR</h2>
-<p>Now we are ready to map the DNA sequencing files to the reference sequence.</p>
+<p>Now we are ready to map the RNA sequences to the reference sequence.</p>
 <p>Make a directory for the output:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> star</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>And then save the following script and run it with sbatch (like above).</p>
@@ -5161,7 +5161,7 @@ Note
 <span id="cb23-283"><a href="#cb23-283" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-284"><a href="#cb23-284" aria-hidden="true" tabindex="-1"></a><span class="fu">## STAR</span></span>
 <span id="cb23-285"><a href="#cb23-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-286"><a href="#cb23-286" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">STAR</span><span class="co">](https://github.com/alexdobin/STAR)</span> is one such spicing site sensitive mapper for RNA sequencing data.</span>
+<span id="cb23-286"><a href="#cb23-286" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">STAR</span><span class="co">](https://github.com/alexdobin/STAR)</span> is one such splicing site sensitive mapper for RNA sequencing data.</span>
 <span id="cb23-287"><a href="#cb23-287" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-288"><a href="#cb23-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Apptainer image </span></span>
 <span id="cb23-289"><a href="#cb23-289" aria-hidden="true" tabindex="-1"></a></span>
@@ -5257,7 +5257,7 @@ Note
 <span id="cb23-379"><a href="#cb23-379" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-380"><a href="#cb23-380" aria-hidden="true" tabindex="-1"></a><span class="fu">## Map with STAR</span></span>
 <span id="cb23-381"><a href="#cb23-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-382"><a href="#cb23-382" aria-hidden="true" tabindex="-1"></a>Now we are ready to map the DNA sequencing files to the reference sequence.</span>
+<span id="cb23-382"><a href="#cb23-382" aria-hidden="true" tabindex="-1"></a>Now we are ready to map the RNA sequences to the reference sequence.</span>
 <span id="cb23-383"><a href="#cb23-383" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-384"><a href="#cb23-384" aria-hidden="true" tabindex="-1"></a>Make a directory for the output:</span>
 <span id="cb23-385"><a href="#cb23-385" aria-hidden="true" tabindex="-1"></a></span>

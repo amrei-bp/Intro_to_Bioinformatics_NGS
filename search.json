@@ -221,7 +221,7 @@
     "href": "NGS2.html#star",
     "title": "",
     "section": "STAR",
-    "text": "STAR\nSTAR is one such spicing site sensitive mapper for RNA sequencing data."
+    "text": "STAR\nSTAR is one such splicing site sensitive mapper for RNA sequencing data."
   },
   {
     "objectID": "NGS2.html#apptainer-image-1",
@@ -242,7 +242,7 @@
     "href": "NGS2.html#map-with-star",
     "title": "",
     "section": "Map with STAR",
-    "text": "Map with STAR\nNow we are ready to map the DNA sequencing files to the reference sequence.\nMake a directory for the output:\nmkdir star\nAnd then save the following script and run it with sbatch (like above).\n#! /bin/bash -l\n\n#SBATCH -A hpc2n2025-XXX\n#SBATCH -t 15:00\n#SBATCH -n 4\n\nset -ueo pipefail\n\n# Get CPUS allocated to slurm script (-n above)\nCPUS=$SLURM_NPROCS\n\nINDEX=ref/STARCassava01Index\nREAD1=../raw/TMEB419RNA_frag_R1.fastq\nREAD2=../raw/TMEB419RNA_frag_R2.fastq\n\nsingularity exec ../singularity_images/star_2.7.11b.sif \\\n    STAR --genomeDir $INDEX \\\n        --outFilterMismatchNoverLmax 0.06 \\\n        --outFilterMatchNminOverLread 0.5 \\\n        --outFilterScoreMinOverLread 0.2 \\\n        --alignIntronMax 20000 \\\n        --alignMatesGapMax 10000 \\\n        --outFileNamePrefix star/TMEB419RNA_  \\\n        --readFilesIn $READ1 $READ2\n\necho \"complete\"\nRun with sbatch.\nYour output will be the SAM file, report files and the list of predicted splicing sites.\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nInspect the report file and check the mapped reads and the average mapped length.\nIs this a good mapping?"
+    "text": "Map with STAR\nNow we are ready to map the RNA sequences to the reference sequence.\nMake a directory for the output:\nmkdir star\nAnd then save the following script and run it with sbatch (like above).\n#! /bin/bash -l\n\n#SBATCH -A hpc2n2025-XXX\n#SBATCH -t 15:00\n#SBATCH -n 4\n\nset -ueo pipefail\n\n# Get CPUS allocated to slurm script (-n above)\nCPUS=$SLURM_NPROCS\n\nINDEX=ref/STARCassava01Index\nREAD1=../raw/TMEB419RNA_frag_R1.fastq\nREAD2=../raw/TMEB419RNA_frag_R2.fastq\n\nsingularity exec ../singularity_images/star_2.7.11b.sif \\\n    STAR --genomeDir $INDEX \\\n        --outFilterMismatchNoverLmax 0.06 \\\n        --outFilterMatchNminOverLread 0.5 \\\n        --outFilterScoreMinOverLread 0.2 \\\n        --alignIntronMax 20000 \\\n        --alignMatesGapMax 10000 \\\n        --outFileNamePrefix star/TMEB419RNA_  \\\n        --readFilesIn $READ1 $READ2\n\necho \"complete\"\nRun with sbatch.\nYour output will be the SAM file, report files and the list of predicted splicing sites.\n\n\n\n\n\n\nImportantTo do for you\n\n\n\nInspect the report file and check the mapped reads and the average mapped length.\nIs this a good mapping?"
   },
   {
     "objectID": "NGS2.html#footnotes",
