@@ -283,7 +283,7 @@ The data set `TMEB117` is `DNA` sequencing data and `bowtie2` the right tool for
 
 ## STAR
 
-[STAR](https://github.com/alexdobin/STAR) is one such spicing site sensitive mapper for RNA sequencing data.
+[STAR](https://github.com/alexdobin/STAR) is one such splicing site sensitive mapper for RNA sequencing data.
 
 ## Apptainer image 
 
@@ -379,7 +379,7 @@ Have a look around the files to see what you discover!
 
 ## Map with STAR
 
-Now we are ready to map the DNA sequencing files to the reference sequence.
+Now we are ready to map the RNA sequences to the reference sequence.
 
 Make a directory for the output:
 
