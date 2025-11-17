@@ -219,7 +219,11 @@ INDEX=ref/Bowtie2Cassava01Index
 R1=../raw/TMEB117_R1_frac.fastq
 R2=../raw/TMEB117_R2_frac.fastq
 
-singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/bowtie2_2.5.4.sif \
+# trimmed data 
+# R1=../fastp/TMEB117_fastp-trimmed_R1.fastq
+# R2=../fastp/TMEB117_fastp-trimmed_R2.fastq
+
+singularity exec ../singularity_images/bowtie2_2.5.4.sif \
     bowtie2 --very-sensitive-local \
     --threads $CPUS \
     -x $INDEX \
