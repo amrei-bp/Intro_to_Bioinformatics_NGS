@@ -4365,7 +4365,7 @@ Note
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="va">READ1</span><span class="op">=</span>../raw/TMEB419RNA_frag_R1.fastq</span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="va">READ2</span><span class="op">=</span>../raw/TMEB419RNA_frag_R2.fastq</span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec  <span class="at">-B</span> /sw/courses/slu_bioinfo/ <span class="at">-B</span> <span class="va">$PWD</span>/../raw ../singularity_images/star_2.7.11b.sif <span class="dt">\</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec ../singularity_images/star_2.7.11b.sif <span class="dt">\</span></span>
 <span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    STAR <span class="at">--genomeDir</span> <span class="va">$INDEX</span> <span class="dt">\</span></span>
 <span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">--outFilterMismatchNoverLmax</span> 0.06 <span class="dt">\</span></span>
 <span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">--outFilterMatchNminOverLread</span> 0.5 <span class="dt">\</span></span>
@@ -5284,7 +5284,7 @@ Note
 <span id="cb23-406"><a href="#cb23-406" aria-hidden="true" tabindex="-1"></a><span class="va">READ1</span><span class="op">=</span>../raw/TMEB419RNA_frag_R1.fastq</span>
 <span id="cb23-407"><a href="#cb23-407" aria-hidden="true" tabindex="-1"></a><span class="va">READ2</span><span class="op">=</span>../raw/TMEB419RNA_frag_R2.fastq</span>
 <span id="cb23-408"><a href="#cb23-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-409"><a href="#cb23-409" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec  <span class="at">-B</span> /sw/courses/slu_bioinfo/ <span class="at">-B</span> <span class="va">$PWD</span>/../raw ../singularity_images/star_2.7.11b.sif <span class="dt">\</span></span>
+<span id="cb23-409"><a href="#cb23-409" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec ../singularity_images/star_2.7.11b.sif <span class="dt">\</span></span>
 <span id="cb23-410"><a href="#cb23-410" aria-hidden="true" tabindex="-1"></a>    STAR <span class="at">--genomeDir</span> <span class="va">$INDEX</span> <span class="dt">\</span></span>
 <span id="cb23-411"><a href="#cb23-411" aria-hidden="true" tabindex="-1"></a>        <span class="at">--outFilterMismatchNoverLmax</span> 0.06 <span class="dt">\</span></span>
 <span id="cb23-412"><a href="#cb23-412" aria-hidden="true" tabindex="-1"></a>        <span class="at">--outFilterMatchNminOverLread</span> 0.5 <span class="dt">\</span></span>
