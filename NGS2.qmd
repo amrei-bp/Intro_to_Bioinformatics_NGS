@@ -406,7 +406,7 @@ INDEX=ref/STARCassava01Index
 READ1=../raw/TMEB419RNA_frag_R1.fastq
 READ2=../raw/TMEB419RNA_frag_R2.fastq
 
-singularity exec  -B /sw/courses/slu_bioinfo/ -B $PWD/../raw ../singularity_images/star_2.7.11b.sif \
+singularity exec ../singularity_images/star_2.7.11b.sif \
     STAR --genomeDir $INDEX \
         --outFilterMismatchNoverLmax 0.06 \
         --outFilterMatchNminOverLread 0.5 \
